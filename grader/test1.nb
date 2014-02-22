@@ -1,0 +1,272 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      8003,        263]
+NotebookOptionsPosition[      6624,        211]
+NotebookOutlinePosition[      6970,        226]
+CellTagsIndexPosition[      6927,        223]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"file", "=", "\"\<C:\\\\Users\\\\abduld\\\\Desktop\\\\k.json\>\""}],
+   ";"}]], "Input",
+ CellChangeTimes->{{3.563474651789533*^9, 3.563474653525533*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"strm", "=", 
+  RowBox[{"OpenRead", "[", "file", "]"}]}]], "Input",
+ CellChangeTimes->{{3.563474654988533*^9, 3.5634746718135333`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"InputStream", "[", 
+  RowBox[{"\<\"C:\\\\Users\\\\abduld\\\\Desktop\\\\k.json\"\>", ",", "142"}], 
+  "]"}]], "Output",
+ CellChangeTimes->{3.5634746722285333`*^9, 3.5634762725105333`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Read Line", "Section",
+ CellChangeTimes->{{3.563475839589533*^9, 3.563475841828533*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"line", "=", 
+   RowBox[{"Read", "[", 
+    RowBox[{"strm", ",", "String"}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.563474677907533*^9, 3.563474715973533*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"entry", "=", 
+   RowBox[{"ImportString", "[", 
+    RowBox[{"line", ",", "\"\<JSON\>\""}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.563474718526533*^9, 3.563474757894533*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"id", "=", 
+  RowBox[{"\"\<$oid\>\"", "/.", 
+   RowBox[{"(", 
+    RowBox[{"\"\<_id\>\"", "/.", "entry"}], ")"}]}]}]], "Input",
+ CellChangeTimes->{{3.5634752870245333`*^9, 3.5634753448645334`*^9}, {
+  3.563475384349533*^9, 3.563475384479533*^9}}],
+
+Cell[BoxData["\<\"50b8de23f0b4f2892b000001\"\>"], "Output",
+ CellChangeTimes->{{3.563475290730533*^9, 3.5634753847845335`*^9}, {
+   3.563475792075533*^9, 3.563475796391533*^9}, {3.563475829848533*^9, 
+   3.5634758720575333`*^9}, 3.563476272849533*^9, {3.563476364549533*^9, 
+   3.563476391165533*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"user", "=", 
+  RowBox[{"\"\<user\>\"", "/.", "entry"}]}]], "Input",
+ CellChangeTimes->{{3.5634753688765335`*^9, 3.5634753863535333`*^9}}],
+
+Cell[BoxData["\<\"3befaf6cf757b2d3c4cf86fac45e8935bfcf1421\"\>"], "Output",
+ CellChangeTimes->{{3.5634763671215334`*^9, 3.563476391179533*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"mpId", "=", 
+  RowBox[{"\"\<mp_id\>\"", "/.", "entry"}]}]], "Input",
+ CellChangeTimes->{{3.563475391709533*^9, 3.563475399882533*^9}}],
+
+Cell[BoxData["\<\"0\"\>"], "Output",
+ CellChangeTimes->{
+  3.5634754001625333`*^9, 3.563475797540533*^9, {3.5634758310295334`*^9, 
+   3.5634758720955334`*^9}, 3.563476272877533*^9, {3.563476364571533*^9, 
+   3.563476391196533*^9}}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"attempts", "=", 
+   RowBox[{"Select", "[", 
+    RowBox[{
+     RowBox[{"\"\<attempts\>\"", "/.", "entry"}], ",", 
+     RowBox[{
+      RowBox[{"StringQ", "[", 
+       RowBox[{
+        RowBox[{"\"\<ProgramText\>\"", "/.", "#"}], "/.", 
+        RowBox[{"\"\<ProgramText\>\"", "\[Rule]", "$Failed"}]}], "]"}], 
+      "&"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.5634747614095335`*^9, 3.563474763913533*^9}, {
+  3.5634748033335333`*^9, 3.563474811304533*^9}, {3.5634748688435335`*^9, 
+  3.5634750062775335`*^9}, {3.5634750364915333`*^9, 3.563475052250533*^9}, {
+  3.5634750971165333`*^9, 3.563475119219533*^9}, {3.563475183783533*^9, 
+  3.563475203802533*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"programAttempts", "=", 
+   RowBox[{"Table", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"DateList", "[", 
+        RowBox[{"\"\<created_on\>\"", "/.", "attempt"}], "]"}], ",", 
+       RowBox[{"\"\<ProgramText\>\"", "/.", "attempt"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"attempt", ",", "attempts"}], "}"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.563474989518533*^9, 3.563474990947533*^9}, {
+  3.563475215514533*^9, 3.563475216189533*^9}, {3.563475415643533*^9, 
+  3.563475473540533*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"lastSubmission", "=", 
+   RowBox[{"Last", "@", 
+    RowBox[{"SortBy", "[", 
+     RowBox[{"programAttempts", ",", 
+      RowBox[{
+       RowBox[{"AbsoluteTime", "[", 
+        RowBox[{"First", "[", "#", "]"}], "]"}], "&"}]}], "]"}]}]}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.563475671466533*^9, 3.5634757116165333`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ByteCount", "[", 
+  RowBox[{"lastSubmission", "[", 
+   RowBox[{"[", "2", "]"}], "]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.5634758488645334`*^9, 3.563475854361533*^9}}],
+
+Cell[BoxData["2344"], "Output",
+ CellChangeTimes->{{3.5634758554985332`*^9, 3.5634758721335335`*^9}, 
+   3.5634762729385333`*^9, {3.5634763646025333`*^9, 3.563476391226533*^9}}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Users", "Section",
+ CellChangeTimes->{{3.563475839589533*^9, 3.563475841828533*^9}, {
+  3.5634759864705334`*^9, 3.563475986802533*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"dir", "=", 
+   RowBox[{"NotebookDirectory", "[", "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.563475993038533*^9, 3.563475997325533*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"users", "=", 
+   RowBox[{"Import", "[", 
+    RowBox[{
+     RowBox[{"FileNameJoin", "[", 
+      RowBox[{"{", 
+       RowBox[{"dir", ",", "\"\<users.csv\>\""}], "}"}], "]"}], ",", 
+     "\"\<CSV\>\""}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.563475988455533*^9, 3.563476017785533*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"users", "=", 
+   RowBox[{"MapThread", "[", 
+    RowBox[{"Rule", ",", 
+     RowBox[{"Transpose", "[", 
+      RowBox[{"Reverse", "/@", "users"}], "]"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.5634760988105335`*^9, 3.5634760990575333`*^9}, {
+  3.563476174750533*^9, 3.563476238809533*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"getUser", "[", "user_", "]"}], ":=", 
+  RowBox[{"user", "/.", "users"}]}]], "Input",
+ CellChangeTimes->{{3.563476275144533*^9, 3.5634762830955334`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"getUser", "[", "user", "]"}]], "Input",
+ CellChangeTimes->{{3.5634762842775335`*^9, 3.563476286894533*^9}}],
+
+Cell[BoxData["1968596"], "Output",
+ CellChangeTimes->{{3.5634763753105335`*^9, 3.563476393585533*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{707, 677},
+WindowMargins->{{120, Automatic}, {63, Automatic}},
+FrontEndVersion->"9.0 for Microsoft Windows (64-bit) (November 20, 2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 188, 4, 31, "Input"],
+Cell[CellGroupData[{
+Cell[770, 28, 158, 3, 31, "Input"],
+Cell[931, 33, 210, 4, 31, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1178, 42, 94, 1, 79, "Section"],
+Cell[1275, 45, 201, 5, 31, "Input"],
+Cell[1479, 52, 216, 5, 31, "Input"],
+Cell[CellGroupData[{
+Cell[1720, 61, 268, 6, 31, "Input"],
+Cell[1991, 69, 301, 4, 31, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2329, 78, 161, 3, 31, "Input"],
+Cell[2493, 83, 143, 1, 31, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[2673, 89, 158, 3, 31, "Input"],
+Cell[2834, 94, 231, 4, 31, "Output"]
+}, Open  ]],
+Cell[3080, 101, 701, 16, 52, "Input"],
+Cell[3784, 119, 568, 14, 72, "Input"],
+Cell[4355, 135, 357, 10, 31, "Input"],
+Cell[CellGroupData[{
+Cell[4737, 149, 195, 4, 31, "Input"],
+Cell[4935, 155, 177, 2, 31, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5161, 163, 141, 2, 79, "Section"],
+Cell[5305, 167, 175, 4, 31, "Input"],
+Cell[5483, 173, 327, 9, 31, "Input"],
+Cell[5813, 184, 332, 8, 31, "Input"],
+Cell[6148, 194, 187, 4, 31, "Input"],
+Cell[CellGroupData[{
+Cell[6360, 202, 131, 2, 31, "Input"],
+Cell[6494, 206, 102, 1, 63, "Output"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

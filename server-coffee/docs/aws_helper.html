@@ -1,0 +1,210 @@
+<!DOCTYPE html>  <html> <head>   <title>aws_helper.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app.html">                 app.coffee               </a>                                           <a class="source" href="aws_helper.html">                 aws_helper.coffee               </a>                                           <a class="source" href="config.html">                 config.coffee               </a>                                           <a class="source" href="daemon_interactor.html">                 daemon_interactor.coffee               </a>                                           <a class="source" href="db.html">                 db.coffee               </a>                                           <a class="source" href="log.html">                 log.coffee               </a>                                           <a class="source" href="login.html">                 login.coffee               </a>                                           <a class="source" href="scheduler.html">                 scheduler.coffee               </a>                                           <a class="source" href="scp.html">                 scp.coffee               </a>                                           <a class="source" href="ssh.html">                 ssh.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               aws_helper.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="nv">config = </span><span class="nx">require</span> <span class="s">&#39;./config&#39;</span>
+<span class="nv">_ = </span><span class="nx">require</span> <span class="s">&#39;underscore&#39;</span>
+
+<span class="nv">fmt = </span><span class="nx">require</span> <span class="s">&#39;fmt&#39;</span>
+<span class="nv">awssum = </span><span class="nx">require</span> <span class="s">&#39;awssum&#39;</span>
+<span class="nv">amazon = </span><span class="nx">awssum</span><span class="p">.</span><span class="nx">load</span> <span class="s">&#39;amazon/amazon&#39;</span>
+<span class="nv">Ec2 = </span><span class="p">(</span><span class="nx">awssum</span><span class="p">.</span><span class="nx">load</span> <span class="s">&#39;amazon/ec2&#39;</span><span class="p">).</span><span class="nx">Ec2</span><span class="p">;</span>
+<span class="nv">scp = </span><span class="nx">require</span> <span class="s">&#39;./scp&#39;</span>
+<span class="nv">ssh = </span><span class="nx">require</span> <span class="s">&#39;./ssh&#39;</span>
+<span class="nv">Logger = </span><span class="nx">require</span> <span class="s">&#39;bunyan&#39;</span>
+
+<span class="nv">ring_buffer = </span><span class="k">new</span> <span class="nx">Logger</span><span class="p">.</span><span class="nx">RingBuffer</span> <span class="nv">limit: </span><span class="mi">200</span>
+
+<span class="nv">ec2 = </span><span class="k">new</span> <span class="nx">Ec2</span> <span class="p">{</span>
+    <span class="s">&#39;accessKeyId&#39;</span>     <span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">aws_key_id</span><span class="p">,</span>
+    <span class="s">&#39;secretAccessKey&#39;</span> <span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">aws_key_secret</span><span class="p">,</span>
+    <span class="s">&#39;region&#39;</span>          <span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">aws_region</span>
+<span class="p">}</span>
+
+<span class="nv">log = </span><span class="k">new</span> <span class="nx">Logger</span> <span class="p">{</span>
+  <span class="nv">name: </span><span class="s">&#39;wbAWS&#39;</span><span class="p">,</span>
+  <span class="nv">streams: </span><span class="p">[</span>
+    <span class="p">{</span>
+      <span class="nv">stream: </span><span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">,</span>
+      <span class="nv">level: </span><span class="s">&#39;debug&#39;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="nv">path: </span><span class="nx">config</span><span class="p">.</span><span class="nx">aws_log_file_path</span><span class="p">,</span>
+      <span class="nv">level: </span><span class="s">&#39;trace&#39;</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+          <span class="nv">type: </span><span class="s">&#39;raw&#39;</span><span class="p">,</span>
+          <span class="nv">stream: </span><span class="nx">ring_buffer</span><span class="p">,</span>
+          <span class="nv">level: </span><span class="s">&#39;trace&#39;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="nv">src: </span><span class="kc">true</span>
+<span class="p">}</span>
+
+<span class="nv">get_instances = </span><span class="nf">(err, data) -&gt;</span>
+  <span class="nv">instances = </span><span class="p">[];</span>
+  <span class="k">if</span> <span class="nx">err</span> <span class="o">and</span> <span class="nx">err</span><span class="p">.</span><span class="nx">Body</span> <span class="o">and</span> <span class="nx">err</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nx">Response</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nx">error</span> <span class="p">{</span><span class="nv">err: </span><span class="s">&#39;GetInstance&#39;</span><span class="p">},</span> <span class="nx">err</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nx">Response</span><span class="p">.</span><span class="nx">Errors</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="nx">err</span><span class="o">?</span>
+    <span class="nx">log</span><span class="p">.</span><span class="nx">error</span> <span class="p">{</span><span class="nv">err: </span><span class="s">&#39;GetInstance&#39;</span><span class="p">},</span> <span class="s">&#39;Failed to get instances.&#39;</span>
+  <span class="k">else</span>
+    <span class="nv">item = </span><span class="nx">data</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nx">DescribeInstancesResponse</span><span class="p">.</span><span class="nx">reservationSet</span><span class="p">.</span><span class="nx">item</span>
+    <span class="nv">add_instance = </span><span class="nf">(inst) -&gt;</span>
+      <span class="k">if</span> <span class="nx">inst</span><span class="p">.</span><span class="nx">item</span><span class="o">?</span>
+        <span class="nx">add_instance</span> <span class="nx">inst</span><span class="p">.</span><span class="nx">item</span>
+      <span class="k">else</span> <span class="k">if</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isArray</span> <span class="nx">inst</span>
+        <span class="nx">add_instance</span><span class="p">(</span><span class="nx">ii</span><span class="p">)</span> <span class="k">for</span> <span class="nx">ii</span> <span class="k">in</span> <span class="nx">inst</span>
+      <span class="k">else</span>
+        <span class="k">try</span> 
+          <span class="nx">instances</span><span class="p">.</span><span class="nx">push</span> <span class="nx">inst</span>
+        <span class="k">catch</span> <span class="nx">e</span>
+          <span class="nx">log</span><span class="p">.</span><span class="nx">error</span> <span class="p">{</span><span class="nv">err: </span><span class="s">&#39;Exception&#39;</span><span class="p">},</span> <span class="s">&#39;While getting instances.&#39;</span>
+    <span class="nx">add_instance</span><span class="p">(</span><span class="nx">iter</span><span class="p">.</span><span class="nx">instancesSet</span><span class="p">)</span> <span class="k">for</span> <span class="nx">iter</span> <span class="k">in</span> <span class="nx">item</span>
+  <span class="nx">instances</span>
+
+<span class="nv">for_each_instance = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="nx">ec2</span><span class="p">.</span><span class="nx">DescribeInstances</span> <span class="nf">(err, data) -&gt;</span>
+    <span class="nv">instances = </span><span class="nx">get_instances</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">data</span>
+    <span class="nx">call_back</span><span class="p">(</span><span class="nx">inst</span><span class="p">)</span> <span class="k">for</span> <span class="nx">inst</span> <span class="k">in</span> <span class="nx">instances</span>
+
+<span class="nv">for_instances = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="nx">ec2</span><span class="p">.</span><span class="nx">DescribeInstances</span> <span class="nf">(err, data) -&gt;</span>
+    <span class="nv">instances = </span><span class="nx">get_instances</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">data</span>
+    <span class="nx">call_back</span> <span class="nx">instances</span>
+
+<span class="nv">for_each_running_instance = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="nx">for_each_instance</span> <span class="nf">(instance) -&gt;</span>
+    <span class="k">try</span> 
+      <span class="k">if</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">instanceState</span><span class="p">.</span><span class="nx">name</span> <span class="o">==</span> <span class="s">&#39;running&#39;</span>
+        <span class="nx">call_back</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">instance</span>
+    <span class="k">catch</span> <span class="nx">e</span>
+      <span class="nx">log</span><span class="p">.</span><span class="nx">error</span> <span class="p">{</span><span class="nv">err: </span><span class="s">&#39;Exception&#39;</span><span class="p">},</span> <span class="s">&#39;While iterating over running instance.&#39;</span>
+      <span class="nx">call_back</span> <span class="kc">true</span>
+
+<span class="nv">for_running_instances = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="nx">for_instances</span> <span class="nf">(instances) -&gt;</span>
+    <span class="k">try</span>
+      <span class="nv">running_instances = </span><span class="nx">_</span><span class="p">.</span><span class="nx">filter</span> <span class="nx">instances</span><span class="p">,</span> <span class="nf">(instance) -&gt;</span>
+        <span class="nx">instance</span><span class="p">.</span><span class="nx">instanceState</span><span class="p">.</span><span class="nx">name</span> <span class="o">==</span> <span class="s">&#39;running&#39;</span>
+      <span class="nx">call_back</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">instances</span>
+    <span class="k">catch</span> <span class="nx">e</span>
+      <span class="nx">log</span><span class="p">.</span><span class="nx">error</span> <span class="p">{</span><span class="nv">err: </span><span class="s">&#39;Exception&#39;</span><span class="p">},</span> <span class="s">&#39;While iterating over instances.&#39;</span>
+      <span class="nx">call_back</span> <span class="kc">true</span>
+
+
+<span class="nv">for_each_instance_id = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="nx">for_each_instance</span> <span class="nf">(instance) -&gt;</span>
+    <span class="nx">call_back</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">instanceId</span>
+
+<span class="nv">for_instance_ids = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="nx">for_instances</span> <span class="nf">(instance) -&gt;</span>
+    <span class="nv">ids = </span><span class="nx">_</span><span class="p">.</span><span class="nx">map</span> <span class="nx">instances</span><span class="p">,</span> <span class="nf">(instance) -&gt;</span>
+      <span class="nx">instance</span><span class="p">.</span><span class="nx">instanceId</span>
+    <span class="nx">call_back</span> <span class="nx">ids</span>
+
+<span class="nv">for_each_running_instance_id = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="nx">for_each_running_instance</span> <span class="nf">(instance) -&gt;</span>
+    <span class="nx">call_back</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">instanceId</span>
+
+<span class="nv">for_running_instance_ids = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="nx">for_running_instances</span> <span class="nf">(instance) -&gt;</span>
+    <span class="nv">ids = </span><span class="nx">_</span><span class="p">.</span><span class="nx">map</span> <span class="nx">instances</span><span class="p">,</span> <span class="nf">(instance) -&gt;</span>
+      <span class="nx">instance</span><span class="p">.</span><span class="nx">instanceId</span>
+    <span class="nx">call_back</span> <span class="nx">ids</span>
+
+<span class="nv">for_each_instance_dns_name = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="nx">for_each_instance</span> <span class="nf">(instance) -&gt;</span>
+    <span class="nx">call_back</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">dnsName</span>
+
+<span class="nv">for_instance_dns_names = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="nx">for_instances</span> <span class="nf">(instances) -&gt;</span>
+    <span class="nv">dnsNames = </span><span class="nx">_</span><span class="p">.</span><span class="nx">map</span> <span class="nx">instances</span><span class="p">,</span> <span class="nf">(instance) -&gt;</span>
+      <span class="nx">instance</span><span class="p">.</span><span class="nx">dnsName</span>
+    <span class="nx">call_back</span> <span class="nx">dnsNames</span>
+
+<span class="nv">for_each_running_instance_dns_name = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="nx">for_each_running_instance</span> <span class="nf">(instance) -&gt;</span>
+    <span class="nx">call_back</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">dnsName</span>
+
+<span class="nv">for_running_instance_dns_names = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="nx">for_running_instances</span> <span class="nf">(instances) -&gt;</span>
+    <span class="nv">dnsNames = </span><span class="nx">_</span><span class="p">.</span><span class="nx">map</span> <span class="nx">instances</span><span class="p">,</span> <span class="nf">(instance) -&gt;</span>
+      <span class="nx">instance</span><span class="p">.</span><span class="nx">dnsName</span>
+    <span class="nx">call_back</span> <span class="nx">dnsNames</span>
+
+<span class="nv">copy_file_to_instance = </span><span class="nf">(host, file, destination_directory, call_back) -&gt;</span>
+  <span class="nx">scp</span><span class="p">.</span><span class="nx">send</span> <span class="p">{</span>
+        <span class="nv">key: </span><span class="nx">config</span><span class="p">.</span><span class="nx">aws_ssh_key_file</span><span class="p">,</span>
+        <span class="nv">user: </span><span class="nx">config</span><span class="p">.</span><span class="nx">aws_user</span><span class="p">,</span>
+        <span class="nv">host: </span><span class="nx">host</span><span class="p">,</span>
+        <span class="nv">file: </span><span class="nx">file</span><span class="p">,</span>
+        <span class="nv">path: </span><span class="nx">destination_directory</span><span class="p">,</span>
+       <span class="p">},</span>
+       <span class="nf">(err, stdout, stderr) -&gt;</span>
+        <span class="k">if</span> <span class="nx">err</span>
+          <span class="nx">log</span><span class="p">.</span><span class="nx">error</span> <span class="p">{</span><span class="nv">err: </span><span class="s">&#39;SendingFile&#39;</span><span class="p">},</span> <span class="s">&quot;Failed to send file &quot;</span> <span class="o">+</span> <span class="nx">file</span> <span class="o">+</span> <span class="s">&quot; to &quot;</span> <span class="o">+</span> <span class="nx">host</span> <span class="o">+</span> <span class="s">&quot; (&quot;</span> <span class="o">+</span> <span class="nx">stderr</span> <span class="o">+</span> <span class="s">&quot;).&quot;</span>
+        <span class="k">else</span>
+          <span class="nx">log</span><span class="p">.</span><span class="nx">info</span> <span class="p">{</span><span class="nv">err: </span><span class="s">&#39;SendingFile&#39;</span><span class="p">},</span> <span class="s">&quot;Sending file &quot;</span> <span class="o">+</span> <span class="nx">file</span> <span class="o">+</span> <span class="s">&quot; to &quot;</span> <span class="o">+</span> <span class="nx">host</span>
+        <span class="nx">call_back</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">stdout</span><span class="p">,</span> <span class="nx">stderr</span>
+
+<span class="nv">copy_file_to_instances = </span><span class="nf">(file, destination_directory, call_back) -&gt;</span>
+  <span class="nx">for_each_running_instance_dns_name</span> <span class="nf">(addr) -&gt;</span>
+    <span class="nx">copy_file_to_instance</span><span class="p">(</span><span class="nx">addr</span><span class="p">,</span> <span class="nx">file</span><span class="p">,</span> <span class="nx">destination_directory</span><span class="p">,</span> <span class="nx">call_back</span><span class="p">)</span>
+
+<span class="nv">execute_command_on_instances = </span><span class="nf">(cmd, call_back) -&gt;</span>
+  <span class="nx">for_each_running_instance_dns_name</span> <span class="nf">(addr) -&gt;</span>
+    <span class="nx">ssh</span><span class="p">.</span><span class="nx">exec</span> <span class="nx">cmd</span><span class="p">,</span>
+         <span class="p">{</span>
+          <span class="nv">key: </span><span class="nx">config</span><span class="p">.</span><span class="nx">aws_ssh_key_file</span><span class="p">,</span>
+          <span class="nv">user: </span><span class="nx">config</span><span class="p">.</span><span class="nx">aws_user</span><span class="p">,</span>
+          <span class="nv">host: </span><span class="nx">addr</span>
+         <span class="p">},</span>
+         <span class="nf">(err, stdout, stderr) -&gt;</span>
+          <span class="k">if</span> <span class="nx">err</span>
+            <span class="nx">log</span><span class="p">.</span><span class="nx">error</span> <span class="p">{</span><span class="nv">err: </span><span class="s">&#39;ExecutingCommand&#39;</span><span class="p">},</span> <span class="s">&quot;Failed to execute command &quot;</span> <span class="o">+</span> <span class="nx">cmd</span> <span class="o">+</span> <span class="s">&quot; on &quot;</span> <span class="o">+</span> <span class="nx">addr</span> <span class="o">+</span> <span class="s">&quot; (&quot;</span> <span class="o">+</span> <span class="nx">stderr</span> <span class="o">+</span> <span class="s">&quot;).&quot;</span>
+          <span class="k">else</span>
+            <span class="nx">log</span><span class="p">.</span><span class="nx">info</span> <span class="p">{</span><span class="nv">err: </span><span class="s">&#39;ExecutingCommand&#39;</span><span class="p">},</span> <span class="s">&quot;Executed command &quot;</span> <span class="o">+</span> <span class="nx">cmd</span> <span class="o">+</span> <span class="s">&quot; on &quot;</span> <span class="o">+</span> <span class="nx">addr</span> <span class="o">+</span> <span class="s">&quot; (&quot;</span> <span class="o">+</span> <span class="nx">stdout</span> <span class="o">+</span> <span class="s">&quot;).&quot;</span>
+          <span class="nx">call_back</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">stdout</span><span class="p">,</span> <span class="nx">stderr</span>
+  
+
+<span class="nv">terminate_running_instances = </span><span class="nf">(n) -&gt;</span>
+  <span class="k">if</span> <span class="o">!</span><span class="nx">n</span><span class="o">?</span>
+    <span class="nv">n = </span><span class="kc">Infinity</span><span class="p">;</span>
+  <span class="k">else</span> <span class="k">if</span> <span class="nx">n</span> <span class="o">&lt;=</span> <span class="mi">0</span>
+    <span class="k">return</span>
+  <span class="nx">for_each_running_instance</span> <span class="nf">(instance) -&gt;</span>
+    <span class="k">if</span> <span class="nx">n</span> <span class="o">==</span> <span class="kc">Infinity</span> <span class="o">||</span> <span class="nx">n</span><span class="o">--</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="nx">ec2</span><span class="p">.</span><span class="nx">TerminateInstances</span> <span class="p">{</span><span class="s">&#39;InstanceId&#39;</span><span class="o">:</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">instanceId</span><span class="p">},</span> <span class="nf">(err, data) -&gt;</span>
+          <span class="nx">log</span><span class="p">.</span><span class="nx">info</span> <span class="p">{</span><span class="nv">err: </span><span class="s">&#39;TerminateInstance&#39;</span><span class="p">},</span> <span class="s">&quot;Terminating instance &quot;</span> <span class="o">+</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">instanceId</span>
+
+<span class="nv">terminate_instance = </span><span class="nf">(host) -&gt;</span>
+  <span class="nx">for_each_running_instance</span> <span class="nf">(instance) -&gt;</span>
+    <span class="k">if</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">dnsName</span> <span class="o">==</span> <span class="nx">host</span>
+        <span class="nx">ec2</span><span class="p">.</span><span class="nx">TerminateInstances</span> <span class="p">{</span><span class="s">&#39;InstanceId&#39;</span><span class="o">:</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">instanceId</span><span class="p">},</span> <span class="nf">(err, data) -&gt;</span>
+          <span class="nx">log</span><span class="p">.</span><span class="nx">info</span> <span class="p">{</span><span class="nv">err: </span><span class="s">&#39;TerminateInstance&#39;</span><span class="p">},</span> <span class="s">&quot;Terminating host &quot;</span> <span class="o">+</span> <span class="nx">instance</span><span class="p">.</span><span class="nx">dnsName</span>
+
+<span class="nv">run_instances = </span><span class="nf">(n) -&gt;</span>
+  <span class="nv">n = </span><span class="nx">n</span> <span class="o">?</span> <span class="mi">1</span>
+  <span class="nx">ec2</span><span class="p">.</span><span class="nx">RunInstances</span> <span class="p">{</span>
+            <span class="s">&#39;ImageId&#39;</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">aws_ami_name</span><span class="p">,</span>
+            <span class="s">&#39;MinCount&#39;</span><span class="o">:</span> <span class="nx">n</span><span class="p">,</span>
+            <span class="s">&#39;MaxCount&#39;</span><span class="o">:</span> <span class="nx">n</span><span class="p">,</span>
+            <span class="s">&#39;KeyName&#39;</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">aws_key_name</span><span class="p">,</span>
+            <span class="s">&#39;InstanceType&#39;</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">aws_instance_type</span><span class="p">,</span>
+            <span class="s">&#39;SecurityGroup&#39;</span><span class="o">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">aws_security_group</span>
+          <span class="p">},</span>
+          <span class="nf">(err, data) -&gt;</span>
+            <span class="k">if</span> <span class="nx">err</span>
+              <span class="nx">log</span><span class="p">.</span><span class="nx">error</span> <span class="p">{</span><span class="nv">err: </span><span class="s">&#39;RunInstance&#39;</span><span class="p">},</span> <span class="nx">err</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nx">Response</span><span class="p">.</span><span class="nx">Errors</span>
+            <span class="k">else</span>
+              <span class="nv">instances = </span><span class="nx">data</span><span class="p">.</span><span class="nx">Body</span><span class="p">.</span><span class="nx">RunInstancesResponse</span><span class="p">.</span><span class="nx">instancesSet</span><span class="p">.</span><span class="nx">item</span><span class="p">;</span>
+              <span class="nv">logInstance = </span><span class="nf">(inst) -&gt;</span>
+                <span class="k">if</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isArray</span> <span class="nx">inst</span>
+                  <span class="nx">_</span><span class="p">.</span><span class="nx">each</span> <span class="nx">inst</span><span class="p">,</span> <span class="nx">logInstance</span>
+                <span class="k">else</span>
+                  <span class="nx">log</span><span class="p">.</span><span class="nx">info</span> <span class="p">{</span><span class="nv">err: </span><span class="s">&#39;RunInstance&#39;</span><span class="p">},</span> <span class="s">&#39;Started instance &#39;</span> <span class="o">+</span> <span class="nx">inst</span><span class="p">.</span><span class="nx">instanceId</span>
+              <span class="nx">logInstance</span> <span class="nx">instances</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>add to scheduler and start the daemon</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">module.exports = </span><span class="p">{</span>
+  <span class="nv">aws_run_instances: </span><span class="nx">run_instances</span><span class="p">,</span>
+  <span class="nv">aws_terminate_instances: </span><span class="nx">terminate_running_instances</span><span class="p">,</span>
+  <span class="nv">aws_terminate_instance: </span><span class="nx">terminate_instance</span><span class="p">,</span>
+  <span class="nv">copy_file_to_instances: </span><span class="nx">copy_file_to_instances</span><span class="p">,</span>
+  <span class="nv">copy_file_to_instance: </span><span class="nx">copy_file_to_instance</span>
+<span class="p">}</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

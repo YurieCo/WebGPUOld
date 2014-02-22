@@ -1,0 +1,1 @@
+"/usr/local/cuda/bin/nvcc"  -O0 -g -DWB_USE_JSON -DWB_USE_COURSERA -DWB_USE_SANDBOX -DWB_USE_CUSTOM_MALLOC  -arch=sm_20 -I.  -I /home/abduld/Dropbox/wbGPU/c-tools -I /home/abduld/Dropbox/wbGPU/c-tools/jansson/ -lwb -L . libjansson.a program.cu -lrt -lstdc++ -lm  -o program 2>&1

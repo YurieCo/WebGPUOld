@@ -1,0 +1,150 @@
+<!DOCTYPE html>  <html> <head>   <title>db.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app.html">                 app.coffee               </a>                                           <a class="source" href="aws_helper.html">                 aws_helper.coffee               </a>                                           <a class="source" href="config.html">                 config.coffee               </a>                                           <a class="source" href="daemon_interactor.html">                 daemon_interactor.coffee               </a>                                           <a class="source" href="db.html">                 db.coffee               </a>                                           <a class="source" href="log.html">                 log.coffee               </a>                                           <a class="source" href="login.html">                 login.coffee               </a>                                           <a class="source" href="scheduler.html">                 scheduler.coffee               </a>                                           <a class="source" href="scp.html">                 scp.coffee               </a>                                           <a class="source" href="ssh.html">                 ssh.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               db.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <p>This file provide methods to interact with the
+mongodb datbase. In the future, we may switch
+databases, but the methods could still be the
+same.</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <h3>Imports</h3>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">mongodb = </span><span class="nx">require</span> <span class="s">&#39;mongodb&#39;</span>
+<span class="nv">config = </span><span class="nx">require</span> <span class="s">&#39;./config&#39;</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <h3>Globals</h3>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">Db = </span><span class="nx">mongodb</span><span class="p">.</span><span class="nx">Db</span>
+<span class="nv">Server = </span><span class="nx">mongodb</span><span class="p">.</span><span class="nx">Server</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>create a new database</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">db = </span><span class="k">new</span> <span class="nx">Db</span> <span class="nx">config</span><span class="p">.</span><span class="nx">db_name</span><span class="p">,</span>
+      <span class="k">new</span> <span class="nx">Server</span> <span class="nx">config</span><span class="p">.</span><span class="nx">db_address</span><span class="p">,</span> <span class="nx">config</span><span class="p">.</span><span class="nx">db_port</span><span class="p">,</span> <span class="p">{</span><span class="nv">auto_reconnect: </span><span class="kc">true</span><span class="p">},</span> <span class="p">{}</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <h3>Methods</h3>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>Database constructor</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">DbProvider = </span><span class="nf">(collection_name) -&gt;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nv">collection_name = </span><span class="nx">collection_name</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Gets a collection from the database. In mongodb
+terms, collections are tables in the database.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">DbProvider.prototype.get_collection = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="nv">collection_name = </span><span class="k">this</span><span class="p">.</span><span class="nx">collection_name</span>
+  <span class="nv">_get_collection = </span><span class="p">()</span> <span class="nf">-&gt;</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>try to create the collection</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">db</span><span class="p">.</span><span class="nx">createCollection</span> <span class="nx">collection_name</span><span class="p">,</span> <span class="nf">(err, col) -&gt;</span>
+      <span class="nx">db</span><span class="p">.</span><span class="nx">collection</span> <span class="nx">collection_name</span><span class="p">,</span>
+              <span class="p">{</span><span class="nv">safe: </span><span class="kc">true</span><span class="p">},</span>
+              <span class="nf">(err, collection) -&gt;</span>
+                <span class="k">if</span> <span class="nx">err</span>
+                  <span class="nx">call_back</span> <span class="nx">err</span>
+                <span class="k">else</span>
+                  <span class="nx">call_back</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">collection</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>if the database is not open, then we open it.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="k">if</span> <span class="nx">db</span><span class="p">.</span><span class="nx">openCalled</span>
+    <span class="nx">_get_collection</span><span class="p">()</span>
+  <span class="k">else</span>
+    <span class="nx">db</span><span class="p">.</span><span class="nx">open</span> <span class="nf">(err, res) -&gt;</span>
+      <span class="k">if</span> <span class="nx">err</span>
+        <span class="nx">call_back</span> <span class="nx">err</span>
+      <span class="k">else</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">&#39;Connected to database :: &#39;</span> <span class="o">+</span> <span class="nx">config</span><span class="p">.</span><span class="nx">db_name</span>
+        <span class="nx">_get_collection</span><span class="p">()</span>
+  <span class="kc">null</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Find all returns all entries in a database</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">DbProvider.prototype.find_all = </span><span class="nf">(call_back) -&gt;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">get_collection</span> <span class="nf">(err, collection) -&gt;</span>
+    <span class="k">if</span> <span class="nx">err</span>
+      <span class="nx">call_back</span> <span class="nx">err</span>
+    <span class="k">else</span>
+      <span class="nx">collection</span><span class="p">.</span><span class="nx">find</span><span class="p">().</span><span class="nx">toArray</span> <span class="nf">(err, res) -&gt;</span>
+        <span class="k">if</span> <span class="nx">err</span>
+          <span class="nx">call_back</span> <span class="nx">err</span>
+        <span class="k">else</span>
+          <span class="nx">call_back</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">res</span>
+  <span class="kc">null</span></pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>Find all user entries in the database, this
+works on both the login and attempts collections</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">DbProvider.prototype.find_user = </span><span class="nf">(user, call_back) -&gt;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">get_collection</span> <span class="nf">(err, collection) -&gt;</span>
+    <span class="k">if</span> <span class="nx">err</span>
+      <span class="nx">call_back</span> <span class="nx">err</span>
+    <span class="k">else</span>
+      <span class="nx">collection</span><span class="p">.</span><span class="nx">findOne</span> <span class="p">{</span><span class="nv">user: </span><span class="nx">user</span><span class="p">},</span> <span class="nf">(err, result) -&gt;</span>
+        <span class="k">if</span> <span class="nx">err</span>
+          <span class="nx">call_back</span> <span class="nx">err</span>
+        <span class="k">else</span>
+          <span class="k">if</span> <span class="nx">result</span> <span class="o">&amp;&amp;</span> <span class="nx">result</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="nv">result = </span><span class="nx">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+          <span class="nx">call_back</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">result</span>
+  <span class="kc">null</span></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Find all attempt entries tied to an mp in the database, this
+works only on the attempts collection</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">DbProvider.prototype.find_attempt = </span><span class="nf">(user, mp_id, call_back) -&gt;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">get_collection</span> <span class="nf">(err, collection) -&gt;</span>
+    <span class="k">if</span> <span class="nx">err</span>
+      <span class="nx">call_back</span> <span class="nx">err</span>
+    <span class="k">else</span>
+      <span class="nx">collection</span><span class="p">.</span><span class="nx">findOne</span> <span class="p">{</span><span class="nv">user: </span><span class="nx">user</span><span class="p">,</span> <span class="nv">mp_id: </span><span class="nx">mp_id</span><span class="p">},</span> <span class="nf">(err, result) -&gt;</span>
+        <span class="k">if</span> <span class="nx">err</span>
+          <span class="nx">call_back</span> <span class="nx">err</span>
+        <span class="k">else</span>
+          <span class="k">if</span> <span class="nx">result</span> <span class="o">&amp;&amp;</span> <span class="nx">result</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
+            <span class="nv">result = </span><span class="nx">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+          <span class="nx">call_back</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">result</span>
+  <span class="kc">null</span></pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>Save some information into the database</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">DbProvider.prototype._save = </span><span class="nf">(data, call_back) -&gt;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">get_collection</span> <span class="nf">(err, collection) -&gt;</span>
+    <span class="k">if</span> <span class="nx">err</span>
+      <span class="nx">call_back</span> <span class="nx">err</span>
+    <span class="k">else</span></pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>we keep track of the time of creation
+and time of update</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="nv">data.created_at = </span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+      <span class="nv">data.updated_on = </span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+      <span class="nx">collection</span><span class="p">.</span><span class="nx">insert</span> <span class="nx">data</span><span class="p">,</span>
+                <span class="p">{</span><span class="nv">safe: </span><span class="kc">true</span><span class="p">},</span>
+                <span class="nf">(err, obj) -&gt;</span>
+                  <span class="nx">call_back</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">obj</span>
+  <span class="kc">null</span></pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>Create a new user with specified user and hash</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">DbProvider.prototype.new_user = </span><span class="nf">(user, hash, call_back) -&gt;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">_save</span> <span class="p">{</span>
+      <span class="nv">user: </span><span class="nx">user</span><span class="p">,</span>
+      <span class="nv">pass: </span><span class="nx">hash</span>
+    <span class="p">},</span>
+    <span class="nx">call_back</span></pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Change the password for a user</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">DbProvider.prototype.update = </span><span class="nf">(user, hash, call_back) -&gt;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">get_collection</span> <span class="nf">(err, collection) -&gt;</span>
+    <span class="k">if</span> <span class="nx">err</span>
+      <span class="nx">call_back</span> <span class="nx">err</span>
+    <span class="k">else</span>
+      <span class="nx">collection</span><span class="p">.</span><span class="nx">update</span> <span class="p">{</span>
+                <span class="nv">user: </span><span class="nx">user</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                  <span class="nv">$set: </span><span class="p">{</span>
+                    <span class="nv">pass: </span><span class="nx">hash</span><span class="p">,</span></pre></div>             </td>           </tr>                               <tr id="section-17">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-17">&#182;</a>               </div>               <p>we update the <code>update_on</code> field</p>             </td>             <td class="code">               <div class="highlight"><pre>                    <span class="nv">updated_on: </span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+                  <span class="p">}</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                  <span class="nv">safe: </span><span class="kc">true</span>
+                <span class="p">},</span>
+                <span class="nf">(err) -&gt;</span>
+                  <span class="nx">call_back</span> <span class="nx">err</span>
+  <span class="kc">null</span></pre></div>             </td>           </tr>                               <tr id="section-18">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-18">&#182;</a>               </div>               <p>Create an empty attempts field for this user and mp</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">DbProvider.prototype.new_attempt = </span><span class="nf">(user, mp_id, call_back) -&gt;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">_save</span> <span class="p">{</span>
+      <span class="nv">user: </span><span class="nx">user</span><span class="p">,</span>
+      <span class="nv">mp_id: </span><span class="nx">mp_id</span><span class="p">,</span>
+      <span class="nv">attempts: </span><span class="p">[]</span>
+    <span class="p">},</span>
+    <span class="nx">call_back</span></pre></div>             </td>           </tr>                               <tr id="section-19">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-19">&#182;</a>               </div>               <p>Add an attempt to the database. If it does not exist, then we create 
+a new attempt</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">DbProvider.prototype.add_attempt = </span><span class="nf">(user, mp_id, attempt, call_back) -&gt;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">find_attempt</span> <span class="nx">user</span><span class="p">,</span>
+            <span class="nx">mp_id</span><span class="p">,</span>
+            <span class="nf">(err, res) -&gt;</span></pre></div>             </td>           </tr>                               <tr id="section-20">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-20">&#182;</a>               </div>               <p>If the user does not exist in the database, then 
+we add a new record.</p>             </td>             <td class="code">               <div class="highlight"><pre>              <span class="k">if</span> <span class="nx">err</span>
+                <span class="k">this</span><span class="p">.</span><span class="nx">new_attempt</span> <span class="nx">user</span><span class="p">,</span>
+                         <span class="nx">mp_id</span><span class="p">,</span>
+                         <span class="nf">(err, res) -&gt;</span>
+                          <span class="k">if</span> <span class="nx">err</span>
+                            <span class="k">return</span>
+                          <span class="k">else</span></pre></div>             </td>           </tr>                               <tr id="section-21">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-21">&#182;</a>               </div>               <p>We call this function again, now that 
+the user has a record</p>             </td>             <td class="code">               <div class="highlight"><pre>                            <span class="k">this</span><span class="p">.</span><span class="nx">add_attempt</span> <span class="nx">user</span><span class="p">,</span> <span class="nx">mp_id</span><span class="p">,</span> <span class="nx">attemp</span><span class="p">,</span> <span class="nx">call_back</span>
+              <span class="k">else</span>
+              <span class="k">this</span><span class="p">.</span><span class="nx">get_collection</span> <span class="nf">(err, collection) -&gt;</span>
+                <span class="k">if</span> <span class="nx">err</span>
+                  <span class="nx">call_back</span> <span class="nx">err</span>
+                <span class="k">else</span></pre></div>             </td>           </tr>                               <tr id="section-22">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-22">&#182;</a>               </div>               <p>add the attempt</p>             </td>             <td class="code">               <div class="highlight"><pre>                  <span class="nx">collection</span><span class="p">.</span><span class="nx">update</span> <span class="p">{</span>
+                            <span class="nv">user: </span><span class="nx">user</span><span class="p">,</span>
+                            <span class="nv">mp_id: </span><span class="nx">mp_id</span>
+                            <span class="p">},</span>
+                            <span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-23">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-23">&#182;</a>               </div>               <p>append the list of attempts with this
+attempt</p>             </td>             <td class="code">               <div class="highlight"><pre>                              <span class="nv">$push: </span><span class="p">{</span>
+                                <span class="nv">attempts: </span><span class="nx">attempt</span>
+                              <span class="p">},</span>
+                              <span class="nv">$set: </span><span class="p">{</span></pre></div>             </td>           </tr>                               <tr id="section-24">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-24">&#182;</a>               </div>               <p>update the <code>updated_on</code> time</p>             </td>             <td class="code">               <div class="highlight"><pre>                                <span class="nv">updated_on: </span><span class="k">new</span> <span class="nb">Date</span><span class="p">()</span>
+                              <span class="p">}</span>
+                            <span class="p">},</span>
+                            <span class="p">{</span>
+                              <span class="nv">safe: </span><span class="kc">true</span>
+                            <span class="p">},</span>
+                            <span class="nf">(err) -&gt;</span>
+                              <span class="nx">call_back</span> <span class="nx">err</span>
+  <span class="kc">null</span></pre></div>             </td>           </tr>                               <tr id="section-25">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-25">&#182;</a>               </div>               <p>For each attempt, perform some action</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">DbProvider.prototype.for_each_attempt = </span><span class="nf">(user, mp_id, call_back) -&gt;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">find_attempt</span> <span class="nx">user</span><span class="p">,</span>
+            <span class="nx">mp_id</span><span class="p">,</span>
+            <span class="nf">(err, res) -&gt;</span>
+              <span class="k">if</span> <span class="nx">err</span>
+                <span class="nx">call_back</span> <span class="nx">err</span>
+              <span class="k">else</span>
+                <span class="nx">call_back</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">res</span><span class="p">.</span><span class="nx">attempts</span>
+  <span class="kc">null</span></pre></div>             </td>           </tr>                               <tr id="section-26">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-26">&#182;</a>               </div>               <h3>Exports</h3>             </td>             <td class="code">               <div class="highlight"><pre><span class="nv">AuthProvider = </span><span class="k">new</span> <span class="nx">DbProvider</span> <span class="nx">config</span><span class="p">.</span><span class="nx">db_collection_auth_name</span>
+<span class="nv">AttemptsProvider = </span> <span class="k">new</span> <span class="nx">DbProvider</span> <span class="nx">config</span><span class="p">.</span><span class="nx">db_collection_attempt_name</span>
+
+<span class="nv">exports.AuthProvider = </span><span class="nx">AuthProvider</span>
+<span class="nv">exports.AttemptsProvider = </span><span class="nx">AttemptsProvider</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

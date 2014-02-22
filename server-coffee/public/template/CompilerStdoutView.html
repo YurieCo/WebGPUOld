@@ -1,0 +1,14 @@
+<% if (Data != '') { %>
+	<div>
+		<div class="accordion-heading">
+			<h4 class="accordion-toggle" data-toggle="collapse" data-parent="#analysis-accordion" href="#compiler-stdout-collapse">
+				Compiler Stdout
+			</h4>
+		</div>
+	    <div class="accordion-body in collapse" id="compiler-stdout-collapse">
+	    	<div class="accordion-inner">
+				<pre class='stderr'><%= Data %></pre>
+			</div>
+		</div>
+	</div>
+<% } %>

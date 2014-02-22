@@ -1,0 +1,48 @@
+<p>We will be using a web based lab development and submission system through this course. The purpose of this web system is two fold: 1) it allows you to develop CUDA applications without the need to buy and/or setup a CUDA system, and 2) it allows us to grade your more efficiently, uniformly, and promptly. This document describes the online system, walking through the pages that you will see, and describing a sample submission.</p>
+<h1 id="web-system">Web System</h1>
+<h2 id="system-flow">System Flow</h2>
+<h2 id="insertion-points">Insertion Points</h2>
+<h2 id="logging-and-debugging">Logging and Debugging</h2>
+<div class="figure">
+<img src="images/logging.png" alt="Logging View" /><p class="caption">Logging View</p>
+</div>
+<h2 id="timing-code">Timing Code</h2>
+<div class="figure">
+<img src="images/timing.png" alt="Timing View" /><p class="caption">Timing View</p>
+</div>
+<h2 id="previous-attempts">Previous Attempts</h2>
+<h2 id="walk-through">Walk Through</h2>
+<h1 id="behaviors">Behaviors</h1>
+<p>While developing the labs, you may encounter one or more of the following behaviors.</p>
+<h2 id="no-error">No Error</h2>
+<div class="figure">
+<img src="images/correct.png" alt="Solution is Correct" /><p class="caption">Solution is Correct</p>
+</div>
+<p>This means that no errors were found while running the program. Your program has been checked against the expected solution of the dataset you selected. Note that it might be the case that the program may run correctly on one dataset and not the other.</p>
+<h2 id="solution-is-incorrect">Solution is Incorrect</h2>
+<div class="figure">
+<img src="images/incorrect.png" alt="Solution is Incorrect" /><p class="caption">Solution is Incorrect</p>
+</div>
+<h2 id="compilation-failed">Compilation Failed</h2>
+<div class="figure">
+<img src="images/syntax.png" alt="Compilation Failed" /><p class="caption">Compilation Failed</p>
+</div>
+<p>The error message</p>
+<h2 id="program-terminated-due-to-timeout">Program Terminated due to Timeout</h2>
+<div class="figure">
+<img src="images/timeout.png" alt="Program Terminated" /><p class="caption">Program Terminated</p>
+</div>
+<p>The most likely cause of this error is that you have inadvertently placed an infinite loop either in your CPU or GPU code. Part of the reason for this behavior is that the system ensures fairness (i.e. you should not hog down the machine). To ensure fairness, the system is configured to terminate long running processes. When you see this error, you have hit that timeout limit.</p>
+<h2 id="memory-allocation-error">Memory Allocation Error</h2>
+<div class="figure">
+<img src="images/memory.png" alt="Memory Allocation" /><p class="caption">Memory Allocation</p>
+</div>
+<h2 id="sandboxing-error">Sandboxing Error</h2>
+<div class="figure">
+<img src="images/sandbox.png" alt="Sandbox Error" /><p class="caption">Sandbox Error</p>
+</div>
+<h1 id="suggestions">Suggestions</h1>
+<h1 id="grading">Grading</h1>
+<p>Grading is performed based on criteria that are specific for each lab. Aside from the program submitted compiling and running, we also look at how fast the program is in relation to the other submissions.</p>
+<h1 id="system-requirements">System Requirements</h1>
+<p>A recent web browser is the only requirement for using and submitting labs in this course.</p>

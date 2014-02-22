@@ -1,0 +1,43 @@
+
+
+<div>
+	<div class="accordion-heading">
+		<h4 class="accordion-toggle" data-toggle="collapse" data-parent="#analysis-timer" href="#timer-collapse">
+			Timer			
+		</h4>
+	</div>
+    <div class="accordion-body in collapse" id="timer-collapse">
+    	<table class="table table-striped table-bordered">
+			<thead>
+				<th>
+					<div class="kind-th icon-resize-vertical"></div>
+					Kind
+				</th>
+				<th>
+					<i class="elapsed-time-th icon-resize-vertical"></i>
+					Elapsed Time (in seconds)
+				</th>
+				<th>
+					<i class="line-th icon-resize-vertical"></i>
+					Line
+				</th>
+				<th>
+					<i class="message-th icon-resize-vertical"></i>
+					Message
+				</th>
+			</thead>
+			<tbody>
+				<% _.each(elements, function(elem) { %>
+					<tr class="timer-element-row" id=<%= elem.get('StartLine') %>>
+						<%
+							var timerElementView = new TimerElementView({model: elem});
+						%>
+						<%=
+							timerElementView.render().el.innerHTML
+						%>
+					</tr>
+				<% }); %>
+			</tbody>
+		</table>
+	</div>
+</div>

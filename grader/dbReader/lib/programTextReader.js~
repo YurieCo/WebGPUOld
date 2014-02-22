@@ -1,0 +1,36 @@
+var db = connect('localhost:27017/wbDB');
+db.attempts.find({
+    "mp_id": "3",
+    "user": "396035"
+}).forEach(function(entry) {
+    var last_attempt = undefined;
+    //var final_date = (new Date(2012, 12, 27, 4, 0, 0, 0)).getTime()
+    var final_date = (new Date(2013, 1, 16, 4, 0, 0, 0)).getTime()
+    entry.attempts.forEach(function(attempt) {
+        if (attempt.created_on != undefined) {
+            var date = ISODate(attempt.created_on).getTime();
+            if (date > final_date) {
+                return ;
+            }
+            if (last_attempt == undefined || last_attempt.created_on < date) {
+                last_attempt = attempt;
+                last_attempt.created_on = date;
+            }
+        }
+    });
+    if (last_attempt == undefined) {
+        var program;
+        var attempt = entry.attempts[entry.attempts.length - 1];
+        if (attempt.submitted_program) {
+            program = attempt.submitted_program;
+        } else if (attempt.saved_program){
+            program = attempt.saved_program;
+        } else {
+            program = attempt.ProgramText;
+        }
+        printjson({"user": entry.user, "program": program, id: attempt.id, "date": entry.updated_on, "found": false});
+    } else {
+        printjson({"user": entry.user, "program": last_attempt.ProgramText, id: last_attempt.id, "date": new Date(last_attempt.created_on)});
+    }
+})
+

@@ -1,0 +1,212 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      6501,        203]
+NotebookOptionsPosition[      5592,        169]
+NotebookOutlinePosition[      5929,        184]
+CellTagsIndexPosition[      5886,        181]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"AppendTo", "[", 
+   RowBox[{"$Path", ",", 
+    RowBox[{"NotebookDirectory", "[", "]"}]}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.563482425143902*^9, 3.56348242895463*^9}, {
+   3.565634741520648*^9, 3.565634742131926*^9}, 3.565637370582942*^9}],
+
+Cell[BoxData[
+ RowBox[{"ParallelNeeds", "[", "\"\<CourseraGrader`\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.566772044544248*^9, 3.566772054235291*^9}}],
+
+Cell[BoxData[
+ RowBox[{"<<", "CourseraGrader`"}]], "Input",
+ CellChangeTimes->{{3.563482429549662*^9, 3.563482433922091*^9}, {
+  3.566772037503539*^9, 3.566772042570855*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"entries", "=", 
+   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"entry", "=", 
+   RowBox[{"readEntry", "[", "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.563483310997796*^9, 3.56348333253364*^9}, {
+  3.565637621579582*^9, 3.5656376222636833`*^9}, {3.5667720615469837`*^9, 
+  3.566772064818766*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"While", "[", 
+   RowBox[{
+    RowBox[{"ListQ", "[", "entry", "]"}], ",", 
+    RowBox[{
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"!", 
+        RowBox[{"FileExistsQ", "[", 
+         RowBox[{"FileNameJoin", "[", 
+          RowBox[{"{", 
+           RowBox[{"\"\</home/abduld/mp20/grades\>\"", ",", 
+            RowBox[{"\"\<user\>\"", "/.", "\[VeryThinSpace]", "entry"}]}], 
+           "}"}], "]"}], "]"}]}], ",", 
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"entries", ",", "entry"}], "]"}]}], "]"}], ";", 
+     RowBox[{"entry", "=", 
+      RowBox[{"readEntry", "[", "]"}]}]}]}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.565633119409911*^9, 3.565633128293041*^9}, {
+   3.56563762447171*^9, 3.565637643116951*^9}, {3.5656582745940037`*^9, 
+   3.565658321486013*^9}, {3.566772069797305*^9, 3.566772074707509*^9}, 
+   3.566826441650466*^9, 3.566854786491953*^9, {3.5670869792250977`*^9, 
+   3.56708697931658*^9}, {3.567090505529982*^9, 3.56709051250099*^9}, {
+   3.567251918908194*^9, 3.567251919028919*^9}, 3.569711977463265*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"DumpSave", "[", 
+   RowBox[{"\"\</home/abduld/mp20/data.mx\>\"", ",", "entries"}], "]"}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.569711986048147*^9, 3.569711986114645*^9}}],
+
+Cell[BoxData[
+ RowBox[{"DumpGet", "[", "\"\</home/abduld/mp20/data.mx\>\"", "]"}]], "Input",\
+
+ CellChangeTimes->{{3.5697119925817137`*^9, 3.5697119926736317`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"entries", "=", 
+   RowBox[{"Select", "[", 
+    RowBox[{"entries", ",", 
+     RowBox[{
+      RowBox[{"!", 
+       RowBox[{"FileExistsQ", "[", 
+        RowBox[{"FileNameJoin", "[", 
+         RowBox[{"{", 
+          RowBox[{"\"\</home/abduld/mp20/grades\>\"", ",", 
+           RowBox[{"\"\<user\>\"", "/.", "\[VeryThinSpace]", "#"}]}], "}"}], 
+         "]"}], "]"}]}], "&"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.569712000315339*^9, 3.569712025555887*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"entries", "=", 
+   RowBox[{"RandomSample", "@", 
+    RowBox[{"RandomSample", "@", 
+     RowBox[{"RandomSample", "[", 
+      RowBox[{"Reverse", "@", "entries"}], "]"}]}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.567622899848402*^9, 3.567622928639903*^9}, {
+   3.567630018770565*^9, 3.567630049320215*^9}, 3.569712006543448*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Length", "[", "entries", "]"}]], "Input",
+ CellChangeTimes->{{3.5676552118317003`*^9, 3.5676552185244102`*^9}, 
+   3.5697120103472643`*^9}],
+
+Cell[BoxData["1800"], "Output",
+ CellChangeTimes->{{3.569712019053891*^9, 3.569712029791894*^9}, 
+   3.569712627192062*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"grade", "[", 
+  RowBox[{"First", "@", "entries"}], "]"}]], "Input",
+ CellChangeTimes->{{3.569712015281083*^9, 3.5697120185800734`*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/886412\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/886412"],
+  Editable->False]], "Print",
+ CellChangeTimes->{3.569712031791688*^9, 3.5697126294489317`*^9}],
+
+Cell[BoxData["\<\"/home/abduld/mp20/grades/886412\"\>"], "Output",
+ CellChangeTimes->{3.5697120477058268`*^9, 3.5697126331245832`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ParallelMap", "[", 
+  RowBox[{"grade", ",", "entries"}], "]"}]], "Input",
+ CellChangeTimes->{3.567600670908876*^9}],
+
+Cell[BoxData[
+ FrameBox[
+  StyleBox[
+   InterpretationBox["\<\"Launching kernels \
+(\\!\\(\\*DynamicBox[ToBoxes[SubKernels`Protected`$initCounter, \
+StandardForm]]\\))\"\>",
+    StringForm["Launching kernels (`1`)", 
+     Dynamic[SubKernels`Protected`$initCounter]],
+    Editable->False],
+   StripOnInput->False,
+   FontFamily->"Verdana",
+   FontSize->11,
+   FontColor->RGBColor[0.2, 0.4, 0.6]],
+  Background->RGBColor[0.96, 0.98, 1.],
+  FrameMargins->{{24, 24}, {8, 8}},
+  FrameStyle->RGBColor[0.2, 0.4, 0.6],
+  StripOnInput->False]], "PrintTemporary",
+ CellChangeTimes->{3.569712640320393*^9}]
+}, Open  ]]
+},
+WindowSize->{960, 1028},
+WindowMargins->{{-9, Automatic}, {Automatic, 0}},
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (November 20, 2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 285, 6, 32, "Input"],
+Cell[845, 28, 154, 2, 32, "Input"],
+Cell[1002, 32, 174, 3, 32, "Input"],
+Cell[1179, 37, 365, 9, 55, "Input"],
+Cell[1547, 48, 1083, 24, 77, "Input"],
+Cell[2633, 74, 210, 5, 32, "Input"],
+Cell[2846, 81, 164, 3, 32, "Input"],
+Cell[3013, 86, 501, 13, 55, "Input"],
+Cell[3517, 101, 363, 8, 32, "Input"],
+Cell[CellGroupData[{
+Cell[3905, 113, 163, 3, 32, "Input"],
+Cell[4071, 118, 123, 2, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4231, 125, 159, 3, 32, "Input"],
+Cell[4393, 130, 272, 6, 23, "Print"],
+Cell[4668, 138, 134, 1, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4839, 144, 139, 3, 32, "Input"],
+Cell[4981, 149, 595, 17, 43, "PrintTemporary"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

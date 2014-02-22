@@ -1,0 +1,244 @@
+\section{Web Client}
+
+This is the browser which is responsible for a few things.
+
+\begin{itemize}
+\item
+  The front end code (CSS and HTML) to be displayed
+\item
+  Every few seconds (3 is a good number) if the program text has been
+  changed, then we trigger a save api call to the web server. This will
+  save the program and avoid program loss (switching tab, hitting the
+  back button, \ldots{}).
+\end{itemize}
+
+\section{Local Client}
+
+This is a C library that we will provide to communicate with the
+webserver. The idea is that we want people to be able to develop their
+code locally if they choose to. Submission for grading is still done on
+our server.
+
+\subsection{Components}
+
+\subsection{enforced limitations}
+
+\begin{itemize}
+\item
+  The sanbox is not enforced in the local client, but it is enforced
+  when we perform the grading on the server
+\end{itemize}
+
+\section{WebServer}
+
+The webserver is responsible for interacting between the user and the
+worker node. Aside from the local client, it is the only public
+interface we expose to working on the labs.
+
+The webserver does not require special hardware (does not require a
+gpu). It can be hosted on a standard AWS instance and the database
+server can be hosted on the same machine.
+
+\subsection{enforced limitations}
+
+\begin{itemize}
+\item
+  a 3 second limiter is enforced between submissions
+\end{itemize}
+
+\subsection{API}
+
+\begin{itemize}
+\item
+  \textbf{GET} \texttt{/login} : gets the login page
+\item
+  \textbf{POST} \texttt{/login} (user,pass): checks if the user and a
+  SHA hash of the password exists in the users database
+\item
+  \textbf{GET} \texttt{/signup} : gets the signup page
+\item
+  \textbf{POST} \texttt{/signup} (user,pass) : creates a new user in the
+  database with a SHA hash of the password
+\item
+  \textbf{POST} \texttt{/logout} : logs out the user (clears the cookie)
+\item
+  \textbf{GET} \texttt{/oauth\_login} : implements oauth authentication
+  (this is used for coursera)
+\item
+  \texttt{/oauth\_login/callback} : callback for oauth (can be passed
+  parameters like the origin page)
+\item
+  \textbf{GET} \texttt{/grades} : shows the grade page (a table of the
+  summary of the grades)
+\item
+  \textbf{GET} \texttt{/grade/\{mp\_id\}} : shows a detailed view of the
+  grade
+\item
+  \textbf{GET} \texttt{/mp/\{mp\_id\}} : shows the MP interface
+\item
+  \textbf{POST} \texttt{/mp/\{mp\_id\}/submit} : triggered when one
+  clicks the submit button. The programs is passed in the body of the
+  \textbf{POST}
+\item
+  \textbf{POST} \texttt{/mp/\{mp\_id\}/save} : saves the program into
+  the database. The programs is passed in the body of the \textbf{POST}
+\item
+  \textbf{GET} \texttt{/mp/\{mp\_id\}/program} : gets the latest saved
+  program for the database. If not found, then the template program is
+  read from the file on the server
+\item
+  \textbf{GET} \texttt{/mp/\{mp\_id\}/description} : gets the
+  description of the MP from disk and renders it in markdown format
+\item
+  \textbf{GET} \texttt{/mp/\{mp\_id\}/attempts} : returns a JSON object
+  with a summary of the attempts. The summary contains information such
+  as when the attempt was made, the id of the attempt (not shown in the
+  table), whether the attempt passed, and which dataset was the attempt
+  made againast.
+\item
+  \textbf{GET} \texttt{/mp/\{mp\_id\}/attempt/\{attempt\_id\}} : gets
+  detailed information about the attempt. This includes the same
+  information of the attempt summary + program/compiler output + program
+  text
+\item
+  \textbf{POST} \texttt{/mp/\{mp\_id\}/submit\_grade} : this will be a
+  button that the user presses to submit the grade to the coursera
+  server
+\item
+  \textbf{POST} \texttt{/mp/\{mp\_id\}/grade} : this will cause the
+  server to test the program against all the datasets and provide the
+  user with the grade they would get if they submit the program. the
+  \textbf{POST} field must contain an API key that is secret and unique
+  to each user (could be something as simple as hash(user\_name +
+  ``secret''){[}-10:{]})
+\item
+  \textbf{POST} \texttt{/mp/\{mp\_id\}/run\_results} : this is called by
+  the worker. The possible behaviors are: the program failed to compile,
+  the program compiled but failed to run, or the program compiled and
+  ran. This data is stored into the database as an attempt by the user.
+\item
+  \textbf{GET} \texttt{/workers} : list all the worker nodes
+\item
+  \textbf{POST} \texttt{/worker/register} : registers the worker with
+  the server . This inserts the worker into the queue.
+\item
+  \textbf{GET} \texttt{/worker/\{id\}} : list all information about a
+  worker node (including log information)
+\item
+  \textbf{GET} \texttt{/images} : public images are posted here
+\item
+  \textbf{GET} \texttt{/whoami} : gives the user id of a user. A user
+  may need to visit this page to also get information to configure that
+  local client (API key, user id, \ldots{})
+\item
+  \textbf{GET} \texttt{/log} : log output from the server
+\item
+  \textbf{GET} \texttt{/404} : not found
+\item
+  \textbf{GET} \texttt{/500} : error
+\end{itemize}
+
+\section{Worker}
+
+Unlike the server, the worker must be hosted on a machine with a GPU.
+The sandboxing might also enforce a certain OS and a certain revision of
+the kernel (the previous implementation was hosted on an ubuntu machine
+since centos did not have the kernel features needed for the
+sandboxing).
+
+\subsection{enforced limitations}
+
+The server enforces the following limitations:
+
+\begin{itemize}
+\item
+  no compilation can take more than 10 seconds
+\item
+  no execution of a program can take more than 3 seconds
+\item
+  before compilation, the program will be textually checked for black
+  listed keywords (exit, abort, include, \ldots{})
+\item
+  on run, a program will use seccomp and a white list of syscalls. the
+  program terminates if a syscall not in the ones approved is used
+\end{itemize}
+
+\subsection{API}
+
+\begin{itemize}
+\item
+  \textbf{POST} \texttt{/mp/\{mp\_id\}/compile} : compiles and runs
+  \textbar{} if dataset id is set to -1, then all the datasets are run
+  against the program \textbar{}
+\item
+  \textbf{GET} \texttt{/mp/\{mp\_id\}/data} : checks if the worker has
+  the configuration and data required for the MP
+\item
+  \textbf{POST} \texttt{/mp/\{mp\_id\}/data} : sends the data and
+  configuration for the MP to the worker node
+\item
+  \textbf{GET} /is\_gpu\_alive : runs a simple GPU kernel and checks if
+  it terminates without errors. If not, then the gpu is not alive. It is
+  the job of the webserver to deal with this (send an email, send
+  another command to the worker, remove the worker from the queue,
+  \ldots{})
+\item
+  \textbf{GET} \texttt{/status} : gets the status of the server. This
+  includes information such as the current load, disk information,
+  \ldots{}
+\item
+  \textbf{POST} \texttt{/stop} : terminates the server . It is the job
+  of the webserver to remove the worker from its queue.
+\item
+  \textbf{GET} \texttt{/log} : log output from the worker
+\end{itemize}
+
+\section{MP Structure}
+
+\subsection{Program Template}
+
+\subsection{Configuration}
+
+\subsection{Dataset}
+
+For each MP
+
+\subsection{Delivery}
+
+\section{Previous Infrastructure}
+
+The previous infrastructure (wb1) is very similar to the one described
+above. There are a few omissions however:
+
+\begin{itemize}
+\item
+  we did not have an instantaneous way to grade MPs. Instead we opted to
+  do it off-line
+\item
+  we did not have a way to check if a GPU worker is down. This caused
+  the server to go down for some time without notice (also cause
+  misdiagnosis for many users about their bugs and distrust in the
+  stability of the server --- more aparent towards the end of the
+  course)
+\item
+  we did not have a local client that people (who do not want to depend
+  on our webserver) can develop with
+\end{itemize}
+
+\subsection{Implementation}
+
+The previous implementation (wb1) used node.js
+
+\section{New Infrastructure}
+
+\subsection{Why Go?}
+
+\subsection{Why not Haskell?}
+
+\subsection{Why not Python?}
+
+\subsection{Why not Ruby?}
+
+\subsection{Why not Java?}
+
+\subsection{Why not JavaScript?}

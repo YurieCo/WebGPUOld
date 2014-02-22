@@ -1,0 +1,44 @@
+extend layout
+
+block body
+    ul#tab-interface.nav.nav-tabs
+        li.active
+            a(href="#problem", data-toggle="tab") Problem
+        li
+            a(href="#code", data-toggle="tab") Code
+        li.analysis.hide
+            a(href="#analysis", data-toggle="tab") Analysis
+    .tab-content
+        #problem.tab-pane.active
+            div.problem-description
+        #code.tab-pane
+            textarea#code-editor
+            .offset5.span4
+                .dropdown.hide.compute-btn-group
+                    .input-append
+                        select.span6.dataset-id
+                            option#0 Dataset 0
+                            option#1 Dataset 1
+                            option#2 Dataset 2
+                        button.compute-btn.btn.btn-primary(type="button") Submit
+            .offset5.span4
+                .computing.hide
+                   | Computing
+                   .spinner
+        #analysis.tab-pane.analysis.hide
+            #analysis-accordion.accordion
+                .accordion-group.analysis-timer.hide
+                .accordion-group.analysis-logger.hide
+                .accordion-group.analysis-compiler-stderr.hide
+                .accordion-group.analysis-compiler-stdout.hide
+                .accordion-group.analysis-program-stderr.hide
+                .accordion-group.analysis-program-stdout.hide
+                .accordion-group.analysis-attempt.hide
+
+block modals
+    .sandboxed-modal
+    .submission-failed-modal
+    .compiler-failed-modal
+    .program-failed-modal
+    .throttled-modal
+

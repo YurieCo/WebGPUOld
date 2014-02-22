@@ -1,0 +1,165 @@
+extend layout
+
+block head
+    script(src="/public/lib/jquery.cookie.js", type="text/javascript", charset="utf-8")
+    script(src="/public/lib/bootstrap-tooltip.js", type="text/javascript", charset="utf-8")
+    script(src="/public/lib/bootstrap-popover.js", type="text/javascript", charset="utf-8")
+    script(src="/public/lib/bootstrap-tour.js", type="text/javascript", charset="utf-8")
+    script(src="/public/lib/bootstrap-alert.js", type="text/javascript", charset="utf-8")
+
+    script(type='text/javascript')
+        $.Tour = function() {
+            var tour = new Tour();
+            tour.addStep({
+                element: ".nav-tabs > li > .problem-tab",
+                placement: "bottom",
+                title: "Problem Description",
+                content: "This tab shows the problem description text."
+            });
+            tour.addStep({
+                element: ".problem-description",
+                placement: "top",
+                title: "Problem Description Text",
+                content: "This text details the objective of the lab, the expectation for the program, and the grading methodology."
+            });
+            tour.addStep({
+                element: ".nav-tabs > li > .code-tab",
+                placement: "bottom",
+                title: "Code Input",
+                content: "This tab contains the code to be edited and submitted in accordance with the lab objectives. Click on it."
+            });
+            tour.addStep({
+                element: "#code.tab-pane",
+                placement: "top",
+                title: "Code Input Text",
+                content: "This text area contains the program to be edited and submitted."
+            });
+            tour.addStep({
+                element: ".code-editor",
+                placement: "top",
+                title: "Code Insertion Points",
+                content: "This code has insertion points that are denoted with the <code>//@@</code> comment."
+            });
+            tour.addStep({
+                placement: "top",
+                title: "Code Insertion Points",
+                content: "This code has insertion points that are denoted with the <code>//@@</code> comment."
+            });
+            tour.addStep({
+                element: ".dataset-selector",
+                placement: "left",
+                title: "Dataset Selector",
+                content: "We will provide some datasets for each lab. This drop down list will contain the ones provided.",
+            });
+            tour.addStep({
+                element: ".compute-btn",
+                placement: "right",
+                title: "Submission Button",
+                content: "This button will submit the program to be graded on the server. Click on it."
+            });
+            tour.addStep({
+                element: ".spinner",
+                placement: "right",
+                title: "Submitting Program to Server",
+                content: "This means that the program is being submitted and evaluated on the server. Depending on the server load, this may take a few minutes for the request to finish. Save your work at this point.",
+            });
+            tour.addStep({
+
+                element: ".dataset-selector",
+                placement: "left",
+                title: "Dataset Selector",
+                content: "We will provide some datasets for each lab. This drop down list will contain the ones provided.",
+            });
+            tour.addStep({
+                element: ".compute-btn",
+                placement: "right",
+                title: "Submission Button",
+                content: "This button will submit the program to be graded on the server. Click on it."
+            });
+            tour.addStep({
+                element: ".spinner",
+                placement: "right",
+                title: "Submitting Program to Server",
+                content: "This means that the program is being submitted and evaluated on the server. Depending on the server load, this may take a few minutes for the request to finish. Save your work at this point.",
+            });
+            tour.addStep({
+
+                placement: "top",
+                title: "Code Insertion Points",
+                content: "This code has insertion points that are denoted with the <code>//@@</code> comment."
+            });
+            tour.addStep({
+                element: ".dataset-selector",
+                placement: "left",
+                title: "Dataset Selector",
+                content: "We will provide some datasets for each lab. This drop down list will contain the ones provided.",
+            });
+            tour.addStep({
+                element: ".compute-btn",
+                placement: "right",
+                title: "Submission Button",
+                content: "This button will submit the program to be graded on the server. Click on it."
+            });
+            tour.addStep({
+                element: ".spinner",
+                placement: "right",
+                title: "Submitting Program to Server",
+                content: "This means that the program is being submitted and evaluated on the server. Depending on the server load, this may take a few minutes for the request to finish. Save your work at this point.",
+            });
+            tour.addStep({
+                element: ".analysis-tab",
+                placement: "bottom",
+                title: "Analysis Tab",
+                content: "The analysis tab shows the result of program runs."
+            });
+            tour.addStep({
+                element: ".analysis",
+                placement: "bottom",
+                title: "Analysis Tab",
+                content: "The analysis content is populated once the program has been submitted. You can also see your previous attempts in this tab.",
+            });
+            tour.restart();
+            return tour;
+        };
+
+block body
+    ul#tab-interface.nav.nav-tabs
+        li.active
+            a.problem-tab(href="#problem", data-toggle="tab") Problem
+        li.code
+            a.code-tab(href="#code", data-toggle="tab") Code
+        li.analysis
+            a.analysis-tab(href="#analysis", data-toggle="tab") Analysis
+    .tab-content
+        #problem.tab-pane.active
+            .problem-description
+        #code.tab-pane
+            .code-editor
+                textarea#code-editor
+            .offset5.span4
+                .dropdown.hide.compute-btn-group.dataset-selector
+                    .input-append
+                        select.span6.dataset-id
+                            option#0 None
+                        button.compute-btn.btn.btn-primary(type="button") Submit
+            .offset5.span4
+                .computing.hide
+                   | Computing
+                   .spinner
+        #analysis.tab-pane.analysis
+            #analysis-accordion.accordion
+                .accordion-group.analysis-timer.hide
+                .accordion-group.analysis-logger.hide
+                .accordion-group.analysis-compiler-stderr.hide
+                .accordion-group.analysis-compiler-stdout.hide
+                .accordion-group.analysis-program-stderr.hide
+                .accordion-group.analysis-program-stdout.hide
+                .accordion-group.analysis-attempt.hide
+
+block modals
+    .sandboxed-modal
+    .submission-failed-modal
+    .compiler-failed-modal
+    .program-failed-modal
+    .throttled-modal
+

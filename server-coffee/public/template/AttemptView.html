@@ -1,0 +1,44 @@
+
+
+<div>
+	<div class="accordion-heading">
+		<h4 class="accordion-toggle" data-toggle="collapse" data-parent="#analysis-logger" href="#logger-collapse">
+			Attempts			
+		</h4>
+	</div>
+    <div class="accordion-body in collapse" id="logger-collapse">
+    	<table class="table table-striped table-bordered">
+			<thead>
+				<th>
+					Dataset #
+				</th>
+				<th>
+					Attempt Description
+				</th>
+				<th>
+					Result
+				</th>
+				<th>
+					Run Time
+				</th>
+				<th>
+					Time
+				</th>
+			</thead>
+			<tbody>
+				<% _.each(elements.reverse(), function(elem) { %>
+					<tr class="attempt-element-row <%= elem.get('tr_class') %> <%= elem.get('id') %> ">
+						<%
+							var attemptElementView = new AttemptElementView({model: elem});
+						%>
+						<%=
+							attemptElementView.render().el.innerHTML
+						%>
+					</tr>
+				<% }); %>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+

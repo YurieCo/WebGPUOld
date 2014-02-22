@@ -1,0 +1,185 @@
+<!DOCTYPE html>  <html> <head>   <title>daemon_interactor.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="app.html">                 app.coffee               </a>                                           <a class="source" href="aws_helper.html">                 aws_helper.coffee               </a>                                           <a class="source" href="config.html">                 config.coffee               </a>                                           <a class="source" href="daemon_interactor.html">                 daemon_interactor.coffee               </a>                                           <a class="source" href="db.html">                 db.coffee               </a>                                           <a class="source" href="log.html">                 log.coffee               </a>                                           <a class="source" href="login.html">                 login.coffee               </a>                                           <a class="source" href="scheduler.html">                 scheduler.coffee               </a>                                           <a class="source" href="scp.html">                 scp.coffee               </a>                                           <a class="source" href="ssh.html">                 ssh.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               daemon_interactor.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="nv">_ = </span><span class="nx">require</span> <span class="s">&#39;underscore&#39;</span>
+<span class="nv">http = </span><span class="nx">require</span> <span class="s">&#39;http&#39;</span>
+<span class="nv">request = </span><span class="nx">require</span> <span class="s">&#39;request&#39;</span>
+<span class="nv">url = </span><span class="nx">require</span> <span class="s">&#39;url&#39;</span>
+
+<span class="nv">log = </span><span class="p">(</span><span class="nx">require</span> <span class="s">&#39;./log&#39;</span><span class="p">).</span><span class="nx">log</span>
+<span class="nv">config = </span><span class="nx">require</span> <span class="s">&#39;./config&#39;</span>
+<span class="nv">aws = </span><span class="nx">require</span> <span class="s">&#39;./aws_helper&#39;</span>
+
+
+<span class="nv">daemon_query = </span><span class="nf">(hostname, path, options, call_back) -&gt;</span>
+  <span class="nv">port = </span><span class="k">if</span> <span class="nx">options</span><span class="p">.</span><span class="nx">port</span><span class="o">?</span> <span class="k">then</span> <span class="nx">options</span><span class="p">.</span><span class="nx">port</span> <span class="k">else</span> <span class="nx">config</span><span class="p">.</span><span class="nx">aws_daemon_running_port</span>
+  <span class="nv">method = </span><span class="k">if</span> <span class="nx">options</span><span class="p">.</span><span class="nx">method</span><span class="o">?</span> <span class="k">then</span> <span class="nx">options</span><span class="p">.</span><span class="nx">method</span> <span class="k">else</span> <span class="s">&#39;GET&#39;</span>
+  <span class="nv">body = </span><span class="k">if</span> <span class="nx">options</span><span class="p">.</span><span class="nx">body</span><span class="o">?</span> <span class="k">then</span> <span class="nx">options</span><span class="p">.</span><span class="nx">body</span> <span class="k">else</span> <span class="s">&#39;&#39;</span>
+  <span class="nv">json = </span><span class="k">if</span> <span class="nx">options</span><span class="p">.</span><span class="nx">json</span><span class="o">?</span> <span class="k">then</span> <span class="nx">options</span><span class="p">.</span><span class="nx">json</span> <span class="k">else</span> <span class="kc">false</span>
+ 
+  <span class="nv">uri = </span><span class="nx">url</span><span class="p">.</span><span class="nx">format</span> <span class="p">{</span>
+    <span class="nv">protocol: </span><span class="s">&#39;http:&#39;</span><span class="p">,</span>
+    <span class="nv">hostname: </span><span class="nx">hostname</span><span class="p">,</span>
+    <span class="nv">port: </span><span class="nx">port</span><span class="p">,</span>
+    <span class="nv">pathname: </span><span class="nx">path</span>
+  <span class="p">}</span>
+
+  <span class="nx">request</span> <span class="p">{</span>
+      <span class="nv">uri: </span><span class="nx">uri</span><span class="p">,</span>
+      <span class="nv">method: </span><span class="nx">method</span><span class="p">,</span>
+      <span class="nv">json: </span><span class="nx">json</span><span class="p">,</span>
+      <span class="nv">body: </span><span class="nx">body</span>
+    <span class="p">},</span>
+    <span class="nx">call_back</span>
+
+
+<span class="nv">daemon_stop = </span><span class="nf">(host, call_back) -&gt;</span>
+  <span class="nx">daemon_query</span> <span class="nx">host</span><span class="p">,</span>
+         <span class="s">&#39;/stop&#39;</span><span class="p">,</span>
+         <span class="p">{</span>
+          <span class="nv">method: </span><span class="s">&#39;GET&#39;</span><span class="p">,</span>
+          <span class="nv">json: </span><span class="kc">true</span>
+         <span class="p">},</span>
+         <span class="nf">(err, res, json) -&gt;</span>
+          <span class="nx">call_back</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">json</span>
+
+
+<span class="nv">daemon_status = </span><span class="nf">(host, call_back) -&gt;</span>
+  <span class="nx">daemon_query</span> <span class="nx">host</span><span class="p">,</span>
+         <span class="s">&#39;/status&#39;</span><span class="p">,</span>
+         <span class="p">{</span>
+          <span class="nv">method: </span><span class="s">&#39;GET&#39;</span><span class="p">,</span>
+          <span class="nv">json: </span><span class="kc">true</span>
+         <span class="p">},</span>
+         <span class="nf">(err, res, json) -&gt;</span>
+          <span class="nx">call_back</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">json</span>
+  
+
+<span class="nv">daemon_log = </span><span class="nf">(host, call_back) -&gt;</span>
+  <span class="nx">daemon_query</span> <span class="nx">host</span><span class="p">,</span>
+         <span class="s">&#39;/log&#39;</span><span class="p">,</span>
+         <span class="p">{</span>
+          <span class="nv">method: </span><span class="s">&#39;GET&#39;</span><span class="p">,</span>
+          <span class="nv">json: </span><span class="kc">true</span>
+         <span class="p">},</span>
+         <span class="nf">(err, res, json) -&gt;</span>
+          <span class="nx">call_back</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">json</span>
+
+<span class="nv">daemon_clear_tmp = </span><span class="nf">(host, call_back) -&gt;</span>
+  <span class="nx">daemon_query</span> <span class="nx">host</span><span class="p">,</span>
+         <span class="s">&#39;/clear_tmp&#39;</span><span class="p">,</span>
+         <span class="p">{</span>
+          <span class="nv">method: </span><span class="s">&#39;GET&#39;</span><span class="p">,</span>
+          <span class="nv">json: </span><span class="kc">true</span>
+         <span class="p">},</span>
+         <span class="nf">(err, res, json) -&gt;</span>
+          <span class="nx">call_back</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">json</span>
+
+<span class="nv">daemon_is_free = </span><span class="nf">(host, call_back) -&gt;</span>
+  <span class="nx">daemon_query</span> <span class="nx">host</span><span class="p">,</span>
+         <span class="s">&#39;/busy&#39;</span><span class="p">,</span>
+         <span class="p">{</span>
+          <span class="nv">method: </span><span class="s">&#39;GET&#39;</span><span class="p">,</span>
+          <span class="nv">json: </span><span class="kc">true</span>
+         <span class="p">},</span>
+         <span class="nf">(err, res, json) -&gt;</span>
+          <span class="nv">busyQ = </span><span class="kc">true</span>
+          <span class="k">if</span> <span class="nx">err</span><span class="o">?</span> <span class="o">and</span> <span class="nx">json</span> <span class="o">==</span> <span class="kc">false</span>
+            <span class="nv">busyQ = </span><span class="kc">false</span>
+          <span class="nx">call_back</span> <span class="nx">busyQ</span>
+
+
+<span class="nv">daemon_has_config = </span><span class="nf">(host, mp, call_back) -&gt;</span>
+  <span class="nx">daemon_query</span> <span class="nx">host</span><span class="p">,</span>
+         <span class="s">&#39;/mp/has_config/&#39;</span> <span class="o">+</span> <span class="nx">mp</span><span class="p">,</span>
+         <span class="p">{</span>
+          <span class="nv">method: </span><span class="s">&#39;GET&#39;</span><span class="p">,</span>
+          <span class="nv">json: </span><span class="kc">true</span>
+         <span class="p">},</span>
+         <span class="nf">(err, res, json) -&gt;</span>
+          <span class="nx">call_back</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">json</span>
+
+<span class="nv">daemon_send_config = </span><span class="nf">(host, mp, call_back) -&gt;</span>
+  <span class="nx">daemon_query</span> <span class="nx">host</span><span class="p">,</span>
+         <span class="s">&#39;/mp/config/&#39;</span> <span class="o">+</span> <span class="nx">mp</span><span class="p">,</span>
+         <span class="p">{</span>
+          <span class="nv">method: </span><span class="s">&#39;POST&#39;</span><span class="p">,</span>
+          <span class="nv">json: </span><span class="kc">true</span>
+         <span class="p">},</span>
+         <span class="nf">(err, res, json) -&gt;</span>
+          
+
+<span class="nv">daemon_has_data = </span><span class="nf">(host, mp, file, call_back) -&gt;</span>
+  <span class="nx">daemon_query</span> <span class="nx">host</span><span class="p">,</span>
+         <span class="s">&#39;/mp/has_data/&#39;</span> <span class="o">+</span> <span class="nx">mp</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="nx">file</span><span class="p">,</span>
+         <span class="p">{</span>
+          <span class="nv">method: </span><span class="s">&#39;GET&#39;</span><span class="p">,</span>
+          <span class="nv">json: </span><span class="kc">true</span>
+         <span class="p">},</span>
+         <span class="nf">(err, res, json) -&gt;</span>
+          <span class="nx">call_back</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">json</span>
+
+<span class="nv">daemon_send_data = </span><span class="nf">(host, mp, file, call_back) -&gt;</span>
+  <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span> <span class="nx">file</span><span class="p">,</span>
+        <span class="s">&#39;ascii&#39;</span><span class="p">,</span>
+        <span class="nf">(err, data) -&gt;</span>
+          <span class="k">if</span> <span class="nx">err</span>
+            <span class="nx">call_back</span> <span class="nx">err</span>
+          <span class="k">else</span>
+            <span class="nx">daemon_query</span> <span class="nx">host</span><span class="p">,</span>
+                   <span class="s">&#39;/mp/has_data/&#39;</span> <span class="o">+</span> <span class="nx">mp</span> <span class="o">+</span> <span class="s">&#39;/&#39;</span> <span class="o">+</span> <span class="nx">file</span><span class="p">,</span>
+                   <span class="p">{</span>
+                    <span class="nv">method: </span><span class="s">&#39;POST&#39;</span><span class="p">,</span>
+                    <span class="nv">json: </span><span class="kc">false</span><span class="p">,</span>
+                    <span class="nv">body: </span><span class="nx">data</span>
+                   <span class="p">},</span>
+                   <span class="nf">(err, res, json) -&gt;</span>
+                    <span class="nx">call_back</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">json</span>
+
+<span class="nv">daemon_current_process_count = </span><span class="nf">(host, call_back) -&gt;</span>
+  <span class="nx">daemon_query</span> <span class="nx">host</span><span class="p">,</span>
+         <span class="s">&#39;/current_process_count&#39;</span><span class="p">,</span>
+         <span class="p">{</span>
+          <span class="nv">method: </span><span class="s">&#39;GET&#39;</span><span class="p">,</span>
+          <span class="nv">json: </span><span class="kc">true</span>
+         <span class="p">},</span>
+         <span class="nf">(err, res, json) -&gt;</span>
+          <span class="nx">call_back</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">json</span><span class="p">.</span><span class="nx">current_process_count</span>
+
+<span class="nv">trim = </span><span class="nf">(string) -&gt;</span>
+    <span class="nx">string</span><span class="p">.</span><span class="nx">replace</span> <span class="sr">/^\s*|\s*$/g</span><span class="p">,</span> <span class="s">&#39;&#39;</span>
+
+<span class="nv">daemon_compute_program = </span><span class="nf">(host, mp_id, body, call_back) -&gt;</span>
+  <span class="nx">daemon_query</span> <span class="nx">host</span><span class="p">,</span>
+         <span class="s">&#39;/mp/submit/&#39;</span> <span class="o">+</span> <span class="nx">mp_id</span><span class="p">,</span>
+         <span class="p">{</span>
+          <span class="nv">method: </span><span class="s">&#39;POST&#39;</span><span class="p">,</span>
+          <span class="nv">json: </span><span class="kc">true</span><span class="p">,</span>
+          <span class="nv">body: </span><span class="nx">body</span>
+         <span class="p">},</span>
+         <span class="nf">(err, res, json) -&gt;</span>
+          <span class="k">if</span> <span class="nx">err</span>
+            <span class="nx">call_back</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">res</span>
+          <span class="k">else</span> <span class="k">if</span> <span class="nx">json</span><span class="o">?</span>
+            <span class="nv">data = </span><span class="p">{}</span>
+            <span class="nv">log = </span><span class="nx">json</span><span class="p">.</span><span class="nx">log</span>
+            <span class="k">if</span> <span class="nx">json</span><span class="p">.</span><span class="nx">type</span> <span class="o">==</span> <span class="s">&#39;compute&#39;</span> <span class="o">||</span> <span class="nx">json</span><span class="p">.</span><span class="nx">type</span> <span class="o">==</span> <span class="s">&#39;error&#39;</span>
+              <span class="nv">data.id = </span><span class="nx">json</span><span class="p">.</span><span class="nx">id</span>
+              <span class="nv">data.created_on = </span><span class="nx">json</span><span class="p">.</span><span class="nx">created_on</span>
+              <span class="nv">data.elapsed_time = </span><span class="nx">json</span><span class="p">.</span><span class="nx">elapsed_time</span>
+              <span class="nv">data.process_count = </span><span class="nx">json</span><span class="p">.</span><span class="nx">process_count</span>
+
+              <span class="nv">process_log_element = </span><span class="nf">(entry) -&gt;</span>
+                <span class="k">if</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">err</span><span class="o">?</span>
+                  <span class="k">try</span>
+                    <span class="nx">data</span><span class="p">[</span><span class="nx">entry</span><span class="p">.</span><span class="nx">err</span><span class="p">]</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">msg</span>
+                  <span class="k">catch</span> <span class="nx">e</span>
+                    <span class="nx">data</span><span class="p">[</span><span class="nx">entry</span><span class="p">.</span><span class="nx">err</span><span class="p">]</span> <span class="o">=</span> <span class="nx">trim</span> <span class="nx">entry</span><span class="p">.</span><span class="nx">msg</span>
+              <span class="nx">process_log_element</span><span class="p">(</span><span class="nx">entry</span><span class="p">)</span> <span class="k">for</span> <span class="nx">entry</span> <span class="k">in</span> <span class="nx">log</span>
+            <span class="nx">call_back</span> <span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">data</span>
+           <span class="k">else</span>
+            <span class="nx">call_back</span> <span class="nx">err</span>
+
+<span class="nv">exports.stop = </span><span class="nx">daemon_stop</span>
+<span class="nv">exports.log = </span><span class="nx">daemon_log</span>
+<span class="nv">exports.status = </span><span class="nx">daemon_status</span>
+<span class="nv">exports.compute = </span><span class="nx">daemon_compute_program</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

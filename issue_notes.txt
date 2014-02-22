@@ -1,0 +1,16 @@
+
+# Some Notes on What Can be Improved for Future
+
+- Have a dedicated machine for the webserver.
+Currently, the machine is being shared with another course offering, which means
+that we do not get a standard port.
+
+- Have more GPU instances.
+Especially on sundays and just before the due date.
+
+- Setup a propper issue tracker.
+
+- Do not schedule the course when people have other commitments.
+Not during finals and not during holidays.
+
+- 

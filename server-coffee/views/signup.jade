@@ -1,0 +1,16 @@
+extend layout
+
+block body
+	.row-fluid
+		form(action="/signup", method="POST") 
+			legend Signup
+			label Full Name
+			input(type="text",name="name",id="name",placeholder="")
+			label Affiliation
+			input(type="text",name="affiliation",id="affiliation",placeholder="")
+			label User Name
+			input(type="text",name="user",id="user",placeholder="")
+			label Password
+			input(type="password", name="pass", id="pass", placeholder="")
+			button(type="submit") Submit
+

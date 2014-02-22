@@ -1,0 +1,38 @@
+
+
+<div>
+	<div class="accordion-heading">
+		<h4 class="accordion-toggle" data-toggle="collapse" data-parent="#analysis-logger" href="#logger-collapse">
+			Logger			
+		</h4>
+	</div>
+    <div class="accordion-body in collapse" id="logger-collapse">
+    	<table class="table table-striped table-bordered">
+			<thead>
+				<th>
+					Level
+				</th>
+				<th>
+					Location
+				</th>
+				<th>
+					Message
+				</th>
+			</thead>
+			<tbody>
+				<% _.each(elements, function(elem) { %>
+					<%
+						var loggerElementView = new LoggerElementView({model: elem});
+					%>
+                    <tr>
+						<%=
+							loggerElementView.render().el.innerHTML
+						%>
+					</tr>
+				<% }); %>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+

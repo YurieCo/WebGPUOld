@@ -1,0 +1,19 @@
+doctype 5
+html(lang="en")
+  head
+    - if (typeof(title) != 'undefined')
+        title= title
+    - else
+        title Heterogeneous Parallel Programming
+    include include/head.jade
+    include include/scripts.jade
+    include include/style.jade
+    block head
+  body(class="container-fluid")
+    include include/navbar.jade
+    .container.row-fluid
+         .span10.offset1
+            block body
+    .container
+        block modals
+    include include/footer.jade

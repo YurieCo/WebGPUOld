@@ -1,0 +1,32 @@
+# Lab Parallel Programming for Coursera
+
+## Current Features
+
+* Login/Signup system
+
+* Scheduling system
+
+* Grading system
+
+* Deployment to AWS tested
+
+## Demo
+
+## Progress
+
+* Only thing missing is some tweaks to the interface
+
+* Should be ready in time for the course, but we probably need
+to monitor it closely for the first lab.
+
+## Things Needed
+
+* Maybe the looking at why it does not work on IE --- do not know much about IE
+
+* Setup ports/permissions on an AMI image (by email) or offline --- bad idea to have root privilages for the running C code
+
+* Integrate the signup system with coursera --- just give them a code that would make us identify who they are in the coursera system. We do not need to expose the coursera login system --- unless we have to.
+
+## By-product
+
+* With a few lines of code, this can be changed from a GPU computation lab framework to a CPU lab framework --- only need to update the compile command.

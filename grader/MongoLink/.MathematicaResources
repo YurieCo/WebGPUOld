@@ -1,0 +1,15 @@
+Resources[
+    Version[1],
+    Sources[
+        Directory["~"]
+    ],
+    Java[
+        Directory["mongo/Java"],
+        Directory["javaOutput"]
+    ],
+    ExecutionBuildCommand["<<mongo`"],
+    Paclet[
+        PacletFolder["mongo"],
+        FunctionPaclet[False]
+    ]
+]

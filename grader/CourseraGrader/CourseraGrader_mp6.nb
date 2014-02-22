@@ -1,0 +1,831 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     27641,        822]
+NotebookOptionsPosition[     24416,        725]
+NotebookOutlinePosition[     24776,        741]
+CellTagsIndexPosition[     24733,        738]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData["Exit"], "Input",
+ CellChangeTimes->{{3.568301562645146*^9, 3.568301562949477*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"AppendTo", "[", 
+   RowBox[{"$Path", ",", 
+    RowBox[{"NotebookDirectory", "[", "]"}]}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.563482425143902*^9, 3.56348242895463*^9}, {
+   3.565634741520648*^9, 3.565634742131926*^9}, 3.565637370582942*^9}],
+
+Cell[BoxData[
+ RowBox[{"ParallelNeeds", "[", "\"\<CourseraGrader`\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.566772044544248*^9, 3.566772054235291*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"<<", "CourseraGrader`"}]], "Input",
+ CellChangeTimes->{{3.563482429549662*^9, 3.563482433922091*^9}, {
+  3.566772037503539*^9, 3.566772042570855*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"dir", "::", "shdw"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Symbol \[NoBreak]\\!\\(\\\"dir\\\"\\)\[NoBreak] appears in \
+multiple contexts \[NoBreak]\\!\\({\\\"CourseraGrader`\\\", \
+\\\"Global`\\\"}\\)\[NoBreak]; definitions in context \
+\[NoBreak]\\!\\(\\\"CourseraGrader`\\\"\\)\[NoBreak] may shadow or be \
+shadowed by other definitions. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/shdw\\\", ButtonNote -> \
+\\\"CourseraGrader`dir::shdw\\\"]\\)\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{3.568301566923121*^9, 3.5691576860204163`*^9}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"entries", "=", 
+   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"entry", "=", 
+   RowBox[{"readEntry", "[", "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.563483310997796*^9, 3.56348333253364*^9}, {
+  3.565637621579582*^9, 3.5656376222636833`*^9}, {3.5667720615469837`*^9, 
+  3.566772064818766*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"While", "[", 
+   RowBox[{
+    RowBox[{"ListQ", "[", "entry", "]"}], ",", 
+    RowBox[{
+     RowBox[{"If", "[", 
+      RowBox[{
+       RowBox[{"!", 
+        RowBox[{"FileExistsQ", "[", 
+         RowBox[{"FileNameJoin", "[", 
+          RowBox[{"{", 
+           RowBox[{"\"\</home/abduld/mp6/grades\>\"", ",", 
+            RowBox[{"\"\<user\>\"", "/.", "\[VeryThinSpace]", "entry"}]}], 
+           "}"}], "]"}], "]"}]}], ",", 
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"entries", ",", "entry"}], "]"}]}], "]"}], ";", 
+     RowBox[{"entry", "=", 
+      RowBox[{"readEntry", "[", "]"}]}]}]}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.565633119409911*^9, 3.565633128293041*^9}, {
+   3.56563762447171*^9, 3.565637643116951*^9}, {3.5656582745940037`*^9, 
+   3.565658321486013*^9}, {3.566772069797305*^9, 3.566772074707509*^9}, 
+   3.566826441650466*^9, 3.566854786491953*^9, {3.5670869792250977`*^9, 
+   3.56708697931658*^9}, {3.567090505529982*^9, 3.56709051250099*^9}, {
+   3.567251918908194*^9, 3.567251919028919*^9}, {3.5676609154621983`*^9, 
+   3.567660915613666*^9}, 3.567950030239275*^9, {3.5683011524423943`*^9, 
+   3.568301152565692*^9}, {3.56915768859824*^9, 3.569157688967636*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"DumpSave", "[", 
+   RowBox[{"\"\</home/abduld/mp6/data.mx\>\"", ",", "entries"}], "]"}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.567968743983378*^9, 3.567968793352027*^9}, {
+  3.568301158557502*^9, 3.5683011586536903`*^9}, {3.5691576933372087`*^9, 
+  3.569157693705364*^9}}],
+
+Cell[BoxData[
+ RowBox[{"DumpGet", "[", "\"\</home/abduld/mp6/data.mx\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.5679687948966*^9, 3.567968803438389*^9}, {
+  3.5679862442243958`*^9, 3.567986244977363*^9}, {3.568301162122857*^9, 
+  3.568301162340158*^9}, {3.569157697934164*^9, 3.569157698197826*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"entries", "=", 
+   RowBox[{"Select", "[", 
+    RowBox[{"entries", ",", 
+     RowBox[{
+      RowBox[{"!", 
+       RowBox[{"FileExistsQ", "[", 
+        RowBox[{"FileNameJoin", "[", 
+         RowBox[{"{", 
+          RowBox[{"\"\</home/abduld/mp6/grades\>\"", ",", 
+           RowBox[{"\"\<user\>\"", "/.", "\[VeryThinSpace]", "#"}]}], "}"}], 
+         "]"}], "]"}]}], "&"}]}], "]"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.5679688201359577`*^9, 3.567968842782167*^9}, {
+  3.5683011653767242`*^9, 3.568301165471018*^9}, {3.569157701183198*^9, 
+  3.569157701475977*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Length", "[", "entries", "]"}]], "Input",
+ CellChangeTimes->{{3.567968844651784*^9, 3.5679688464188547`*^9}}],
+
+Cell[BoxData["3255"], "Output",
+ CellChangeTimes->{
+  3.567968847030246*^9, 3.567983191972464*^9, 3.567985429459188*^9, 
+   3.567985509792898*^9, 3.5679862467072697`*^9, 3.567987533712755*^9, 
+   3.567987639498316*^9, 3.568301188325528*^9, 3.5683014461746283`*^9, 
+   3.5683015152255173`*^9, {3.5683015715198307`*^9, 3.568301582980341*^9}, 
+   3.5691578146561203`*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"entries", "=", 
+   RowBox[{"RandomSample", "@", 
+    RowBox[{"RandomSample", "@", 
+     RowBox[{"RandomSample", "[", 
+      RowBox[{"Reverse", "@", "entries"}], "]"}]}]}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.567622899848402*^9, 3.567622928639903*^9}, {
+   3.567630018770565*^9, 3.567630049320215*^9}, {3.567782883371023*^9, 
+   3.567782885901672*^9}, 3.567783214326335*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ParallelMap", "[", 
+  RowBox[{"grade", ",", "entries"}], "]"}]], "Input",
+ CellChangeTimes->{
+  3.567600670908876*^9, 3.567782937736966*^9, {3.567784841463871*^9, 
+   3.567784842229208*^9}, 3.567987643780408*^9, {3.568301169585894*^9, 
+   3.568301170527277*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Get", "::", "noopen"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot open \\!\\(\\\"CourseraGrader`\\\"\\).\"\>"}]], \
+"Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.56915823528932*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Needs", "::", "nocont"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Context \\!\\(\\\"CourseraGrader`\\\"\\) was not created \
+when Needs was evaluated.\"\>"}]], "Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.5691582352976418`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Get", "::", "noopen"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot open \\!\\(\\\"CourseraGrader`\\\"\\).\"\>"}]], \
+"Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.56915823531796*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Needs", "::", "nocont"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Context \\!\\(\\\"CourseraGrader`\\\"\\) was not created \
+when Needs was evaluated.\"\>"}]], "Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.569158235354814*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Get", "::", "noopen"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot open \\!\\(\\\"CourseraGrader`\\\"\\).\"\>"}]], \
+"Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.569158235401216*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Needs", "::", "nocont"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Context \\!\\(\\\"CourseraGrader`\\\"\\) was not created \
+when Needs was evaluated.\"\>"}]], "Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.5691582354130487`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Get", "::", "noopen"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot open \\!\\(\\\"CourseraGrader`\\\"\\).\"\>"}]], \
+"Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.5691582354461*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Needs", "::", "nocont"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Context \\!\\(\\\"CourseraGrader`\\\"\\) was not created \
+when Needs was evaluated.\"\>"}]], "Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.56915823545741*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/212158\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/212158"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158236281124*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"ResetDirectory", "::", "cdir"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot set current directory to \
+\[NoBreak]\\!\\(\\\"/tmp/working/186499\\\"\\)\[NoBreak]. \\!\\(\\*ButtonBox[\
+\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/message/General/cdir\\\", ButtonNote -> \
+\\\"ResetDirectory::cdir\\\"]\\)\"\>"}]], "Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.5683015867975492`*^9, 3.569158236950992*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1756181\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1756181"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.56915823697094*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1948035\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1948035"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158240907353*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/3695\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/3695"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158244478568*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/758624\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/758624"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158245139283*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/238815\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/238815"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158245799233*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1226046\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1226046"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158246460815*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1251540\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1251540"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158247134225*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1961479\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1961479"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.56915825065211*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/186499\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/186499"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158251319763*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/32515\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/32515"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.5691582519801397`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/15508\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/15508"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158252637294*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1719426\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1719426"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.5691582562376833`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/374233\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/374233"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.5691582568988857`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/110793\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/110793"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158257573299*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/726285\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/726285"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158258242159*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/553090\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/553090"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158258916833*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/2137743\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/2137743"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.56915826254047*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/96641\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/96641"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158263211985*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1715265\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1715265"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.5691582666929493`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/613639\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/613639"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158267362773*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/674895\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/674895"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158268036029*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1196156\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1196156"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.56915826870903*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1982019\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1982019"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158269379356*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/663547\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/663547"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158270051717*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/2076325\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/2076325"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158270733986*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/85763\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/85763"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158271405903*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1675319\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1675319"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.5691582720772533`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1896070\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1896070"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158272741659*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1957279\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1957279"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158276296506*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/2032373\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/2032373"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.5691582799298067`*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"CreateDirectory", "::", "filex"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\(\\\"/tmp/working/1251540/\\\"\\)\[NoBreak] \
+already exists. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/CreateDirectory\\\", ButtonNote -> \
+\\\"CreateDirectory::filex\\\"]\\)\"\>"}]], "Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.5683015867975492`*^9, 3.569158280664935*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"CopyFile", "::", "filex"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot overwrite existing file \
+\[NoBreak]\\!\\(\\\"/tmp/working/1251540/build.sh\\\"\\)\[NoBreak]. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/CopyFile/filex\\\", \
+ButtonNote -> \\\"CopyFile::filex\\\"]\\)\"\>"}]], "Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.5683015867975492`*^9, 3.5691582807154493`*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1251540\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1251540"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158280716896*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/93351\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/93351"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158284396421*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1873304\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1873304"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158285076507*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/433092\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/433092"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158285737859*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/93674\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/93674"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.5691582864064503`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1736260\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1736260"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158287078123*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1581324\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1581324"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.5691582877509413`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/381467\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/381467"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158288412713*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/2018757\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/2018757"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.5691582891057673`*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1231249\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1231249"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158289800516*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1410877\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1410877"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158290474519*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"CreateDirectory", "::", "filex"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"\[NoBreak]\\!\\(\\\"/tmp/working/1251540/\\\"\\)\[NoBreak] \
+already exists. \\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", \
+ButtonStyle->\\\"Link\\\", ButtonFrame->None, \
+ButtonData:>\\\"paclet:ref/CreateDirectory\\\", ButtonNote -> \
+\\\"CreateDirectory::filex\\\"]\\)\"\>"}]], "Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.5683015867975492`*^9, 3.5691582941434193`*^9}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"CopyFile", "::", "filex"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"Cannot overwrite existing file \
+\[NoBreak]\\!\\(\\\"/tmp/working/1251540/build.sh\\\"\\)\[NoBreak]. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:ref/message/CopyFile/filex\\\", \
+ButtonNote -> \\\"CopyFile::filex\\\"]\\)\"\>"}]], "Message", "MSG",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.5683015867975492`*^9, 3.569158294189624*^9}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1251540\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1251540"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158294191987*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/2361053\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/2361053"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.569158297747711*^9}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\<\"Compiling \"\>", 
+   "\[InvisibleSpace]", "\<\"/tmp/working/1264677\"\>"}],
+  SequenceForm["Compiling ", "/tmp/working/1264677"],
+  Editable->False]], "Print",
+ ShowCellLabel->True,
+ CellChangeTimes->{3.568301588141057*^9, 3.56915829836167*^9}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1075, 1018},
+WindowMargins->{{296, Automatic}, {Automatic, 6}},
+ShowSelection->True,
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (November 20, 2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 96, 1, 32, "Input"],
+Cell[656, 23, 285, 6, 32, "Input"],
+Cell[944, 31, 154, 2, 32, "Input"],
+Cell[CellGroupData[{
+Cell[1123, 37, 174, 3, 32, "Input"],
+Cell[1300, 42, 692, 13, 43, "Message"]
+}, Open  ]],
+Cell[2007, 58, 365, 9, 55, "Input"],
+Cell[2375, 69, 1231, 26, 77, "Input"],
+Cell[3609, 97, 311, 7, 32, "Input"],
+Cell[3923, 106, 301, 4, 32, "Input"],
+Cell[4227, 112, 602, 15, 55, "Input"],
+Cell[CellGroupData[{
+Cell[4854, 131, 133, 2, 32, "Input"],
+Cell[4990, 135, 368, 6, 32, "Output"]
+}, Open  ]],
+Cell[5373, 144, 413, 9, 32, "Input"],
+Cell[CellGroupData[{
+Cell[5811, 157, 286, 6, 32, "Input"],
+Cell[6100, 165, 256, 8, 24, "Message"],
+Cell[6359, 175, 298, 8, 22, "Message"],
+Cell[6660, 185, 256, 8, 24, "Message"],
+Cell[6919, 195, 296, 8, 22, "Message"],
+Cell[7218, 205, 257, 8, 24, "Message"],
+Cell[7478, 215, 298, 8, 22, "Message"],
+Cell[7779, 225, 255, 8, 24, "Message"],
+Cell[8037, 235, 295, 8, 22, "Message"],
+Cell[8335, 245, 292, 7, 37, "Print"],
+Cell[8630, 254, 531, 11, 38, "Message"],
+Cell[CellGroupData[{
+Cell[9186, 269, 293, 7, 37, "Print"],
+Cell[9482, 278, 294, 7, 37, "Print"],
+Cell[9779, 287, 288, 7, 37, "Print"],
+Cell[10070, 296, 292, 7, 37, "Print"],
+Cell[10365, 305, 292, 7, 37, "Print"],
+Cell[10660, 314, 294, 7, 37, "Print"],
+Cell[10957, 323, 294, 7, 37, "Print"],
+Cell[11254, 332, 293, 7, 37, "Print"],
+Cell[11550, 341, 292, 7, 37, "Print"],
+Cell[11845, 350, 292, 7, 37, "Print"],
+Cell[12140, 359, 290, 7, 37, "Print"],
+Cell[12433, 368, 296, 7, 37, "Print"],
+Cell[12732, 377, 294, 7, 37, "Print"],
+Cell[13029, 386, 292, 7, 37, "Print"],
+Cell[13324, 395, 292, 7, 37, "Print"],
+Cell[13619, 404, 292, 7, 37, "Print"],
+Cell[13914, 413, 293, 7, 37, "Print"],
+Cell[14210, 422, 290, 7, 37, "Print"],
+Cell[14503, 431, 296, 7, 37, "Print"],
+Cell[14802, 440, 292, 7, 37, "Print"],
+Cell[15097, 449, 292, 7, 37, "Print"],
+Cell[15392, 458, 293, 7, 37, "Print"],
+Cell[15688, 467, 294, 7, 37, "Print"],
+Cell[15985, 476, 292, 7, 37, "Print"],
+Cell[16280, 485, 294, 7, 37, "Print"],
+Cell[16577, 494, 290, 7, 37, "Print"],
+Cell[16870, 503, 296, 7, 37, "Print"],
+Cell[17169, 512, 294, 7, 37, "Print"],
+Cell[17466, 521, 294, 7, 37, "Print"],
+Cell[17763, 530, 296, 7, 37, "Print"]
+}, Open  ]],
+Cell[18074, 540, 515, 11, 38, "Message"],
+Cell[18592, 553, 534, 11, 38, "Message"],
+Cell[CellGroupData[{
+Cell[19151, 568, 294, 7, 37, "Print"],
+Cell[19448, 577, 290, 7, 37, "Print"],
+Cell[19741, 586, 294, 7, 37, "Print"],
+Cell[20038, 595, 292, 7, 37, "Print"],
+Cell[20333, 604, 292, 7, 37, "Print"],
+Cell[20628, 613, 294, 7, 37, "Print"],
+Cell[20925, 622, 296, 7, 37, "Print"],
+Cell[21224, 631, 292, 7, 37, "Print"],
+Cell[21519, 640, 296, 7, 37, "Print"],
+Cell[21818, 649, 294, 7, 37, "Print"],
+Cell[22115, 658, 294, 7, 37, "Print"]
+}, Open  ]],
+Cell[22424, 668, 517, 11, 38, "Message"],
+Cell[22944, 681, 532, 11, 38, "Message"],
+Cell[CellGroupData[{
+Cell[23501, 696, 294, 7, 37, "Print"],
+Cell[23798, 705, 294, 7, 37, "Print"],
+Cell[24095, 714, 293, 7, 37, "Print"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

@@ -1,0 +1,19 @@
+
+
+login:
+  - id
+  - user_name
+  - pass_hash
+
+attempts:
+  - id
+  - user_name
+  - attempt_id
+
+attempt:
+  - id
+  - mp_id
+  - dataset_id
+  - compile_failed
+  - run_failed
+  - 

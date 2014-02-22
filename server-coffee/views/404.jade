@@ -1,0 +1,12 @@
+extend layout
+
+block body
+    .hero-unit
+        - if (typeof(msg) != 'undefined')
+            h1 404 #{msg}.
+        - else
+            h1 404 Page Not Found
+        p This page is not found. If you did not come here by error, then please report the issue.
+        p
+            a.btn.btn-primary.btn-large(href = '/') Go Home &raquo;
+

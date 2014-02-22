@@ -1,0 +1,14 @@
+
+% #####
+% #
+% # Default layout
+% #
+% #####
+  \vspace{40pt}
+  \sffamily
+  \begin{tabular}{l>{\raggedright\hspace{0pt}\arraybackslash}p{15cm}}
+    & \\
+    & \huge\textbf{Ar}\\[\baselineskip]
+    & \huge{CS 526: Unit Project Proposal}\\[\baselineskip]
+    & Abdul Dakkak (\tt{dakkak}), Shengzhau (Steven) Wu (\tt{wu14})\\[\baselineskip]
+  \end{tabular}

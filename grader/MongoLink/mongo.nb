@@ -1,0 +1,649 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 9.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     22288,        640]
+NotebookOptionsPosition[     17972,        494]
+NotebookOutlinePosition[     19532,        544]
+CellTagsIndexPosition[     19160,        532]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Project: mongo", "Title"],
+
+Cell["\<\
+Open a connection, database and collection\
+\>", "Subsubtitle",
+ CellChangeTimes->{{3.5634827106012583`*^9, 3.5634827163888683`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "OpenConnection"}]], "Input",
+ CellChangeTimes->{{3.5634760986861105`*^9, 3.563476100542514*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"OpenConnection[] opens a connection to \
+localhost:27017.\\nOpenConnection[host, port] opens a connection to the \
+specified host and port.\\nIn either case, the database server must already \
+be running; this function will not start the server.\"\>", "MSG"]], "Print", \
+"PrintUsage",
+ CellChangeTimes->{3.563476100932514*^9},
+ CellTags->"Info3563447300-9176378"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"PrependTo", "[", 
+   RowBox[{"$Path", ",", 
+    RowBox[{"NotebookDirectory", "[", "]"}]}], "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.5643233487606487`*^9, 3.564323357225046*^9}, {
+  3.564323387797681*^9, 3.564323416965085*^9}}],
+
+Cell[BoxData[
+ RowBox[{"<<", "mongo`"}]], "Input",
+ CellChangeTimes->{{3.564323418297806*^9, 3.5643234198790503`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"InstallJava", "[", "]"}], ";"}]], "Input",
+ CellChangeTimes->{{3.564323427498008*^9, 3.564323450191181*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"AddToClassPath", "[", 
+   RowBox[{"FileNameJoin", "[", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"NotebookDirectory", "[", "]"}], ",", "\"\<mongo\>\"", ",", 
+      "\"\<Java\>\"", ",", "\"\<mongo-2.10.0.jar\>\""}], "}"}], "]"}], "]"}], 
+  ";"}]], "Input",
+ CellChangeTimes->{{3.564323476963273*^9, 3.5643235506276703`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"connection", "=", 
+  RowBox[{"OpenConnection", "[", "]"}]}]], "Input",
+ CellChangeTimes->{{3.5634724557859907`*^9, 3.5634724606687994`*^9}, {
+  3.5634737250374207`*^9, 3.5634737265194235`*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\[LeftGuillemet]", 
+   RowBox[{"JavaObject", "[", 
+    RowBox[{"com", ".", "mongodb", ".", "MongoClient"}], "]"}], 
+   "\[RightGuillemet]"}],
+  JLink`Objects`vm1`JavaObject27853324992643073]], "Output",
+ CellChangeTimes->{
+  3.5634724612928004`*^9, 3.5634725840066166`*^9, 3.563472696889415*^9, {
+   3.5634728285018463`*^9, 3.5634728316686516`*^9}, 3.5634733030088797`*^9, {
+   3.563474955529102*^9, 3.563474959834709*^9}, 3.56347626538724*^9, 
+   3.563476354107596*^9, 3.563476679059167*^9, 3.5634774769595685`*^9, 
+   3.563477507602022*^9, 3.5634775542627044`*^9, 3.5634820120738306`*^9, 
+   3.564323422515399*^9, 3.564323459290021*^9, 3.5643235530803747`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "GetDatabase"}]], "Input",
+ CellChangeTimes->{{3.5634761165611553`*^9, 3.563476117871176*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"GetDatabase[connection, database] returns the specified \
+database object.\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.5634761182467813`*^9},
+ CellTags->"Info3563447318-9176378"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"database", "=", 
+  RowBox[{"GetDatabase", "[", 
+   RowBox[{"connection", ",", "\"\<wbDB\>\""}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.563472701600623*^9, 3.5634727104458385`*^9}, {
+  3.563473729655029*^9, 3.5634737303882303`*^9}, {3.564323561585836*^9, 
+  3.564323562212287*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\[LeftGuillemet]", 
+   RowBox[{"JavaObject", "[", 
+    RowBox[{"com", ".", "mongodb", ".", "DBApiLayer"}], "]"}], 
+   "\[RightGuillemet]"}],
+  JLink`Objects`vm1`JavaObject10640010663428097]], "Output",
+ CellChangeTimes->{
+  3.5634727111166396`*^9, 3.5634728329790535`*^9, 3.563473305536084*^9, {
+   3.5634749568395042`*^9, 3.5634749611139116`*^9}, 3.563476266604042*^9, 
+   3.5634763565568*^9, 3.563476479422616*^9, 3.563476682662773*^9, 
+   3.563477478301171*^9, 3.563477509208825*^9, 3.563477556321908*^9, 
+   3.563482013337433*^9, 3.5643235629179373`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "CollectionNames"}]], "Input",
+ CellChangeTimes->{{3.563476119681984*^9, 3.563476121522787*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"CollectionNames[database] returns a list of collection names \
+in the specified database.\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.563476121912788*^9},
+ CellTags->"Info3563447321-9176378"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"CollectionNames", "[", "database", "]"}]], "Input",
+ CellChangeTimes->{{3.5634727156250477`*^9, 3.563472725999066*^9}, 
+   3.563473732556634*^9}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"\<\"system.indexes\"\>", ",", "\<\"testcollection\"\>"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{{3.563472721724658*^9, 3.5634727262954664`*^9}, 
+   3.563472834851057*^9, 3.5634733068620863`*^9, 3.5634749626739144`*^9, 
+   3.563476009000553*^9, 3.5634761600704546`*^9, 3.563476267540044*^9, 
+   3.5634763579764028`*^9, 3.5634764815910196`*^9, {3.5634766842851763`*^9, 
+   3.563476695751196*^9}, {3.5634774879107876`*^9, 3.563477510971628*^9}, 
+   3.5634775571643095`*^9, 3.5634820143982353`*^9, 3.5634828741831455`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "GetCollection"}]], "Input",
+ CellChangeTimes->{{3.563476123659991*^9, 3.563476127107597*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"GetCollection[database, collection] gets or creates the \
+specified collection.\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.5634761274195976`*^9},
+ CellTags->"Info3563447327-9176378"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"collection", "=", 
+  RowBox[{"GetCollection", "[", 
+   RowBox[{"database", ",", "\"\<attempts\>\""}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.563472858719099*^9, 3.5634728669559135`*^9}, 
+   3.5634729022587757`*^9, {3.5634737350058384`*^9, 3.5634737351618385`*^9}, {
+   3.563476691507989*^9, 3.5634766926311903`*^9}, {3.5643235675626574`*^9, 
+   3.5643235687392473`*^9}, {3.564323643133893*^9, 3.564323644450083*^9}}],
+
+Cell[BoxData[
+ InterpretationBox[
+  RowBox[{"\[LeftGuillemet]", 
+   RowBox[{"JavaObject", "[", 
+    RowBox[{"com", ".", "mongodb", ".", "DBApiLayer$MyCollection"}], "]"}], 
+   "\[RightGuillemet]"}],
+  JLink`Objects`vm1`JavaObject8230338639691777]], "Output",
+ CellChangeTimes->{3.563472867751515*^9, 3.5634733103408923`*^9, 
+  3.5634749656535196`*^9, 3.5634761627536592`*^9, 3.563476270753649*^9, 
+  3.5634763590996046`*^9, 3.5634764867234287`*^9, 3.5634766930679913`*^9, 
+  3.563477513124432*^9, 3.5634775583499117`*^9, 3.563482015973838*^9, 
+  3.5634823550570335`*^9, 3.5643235700139923`*^9, 3.564323644940288*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Create", "Subsubtitle",
+ CellChangeTimes->{{3.56348274030371*^9, 3.5634827462785206`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "InsertDocument"}]], "Input",
+ CellChangeTimes->{{3.5634761289016*^9, 3.563476131709605*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"InsertDocument[collection, document] inserts a list of rules \
+into a collection.\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.5634761320840054`*^9},
+ CellTags->"Info3563447331-9176378"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"InsertDocument", "[", 
+  RowBox[{"collection", ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\"\<k\>\"", "\[Rule]", "\"\<omega\>\""}], ",", 
+     RowBox[{"\"\<d\>\"", "\[Rule]", "5"}], ",", 
+     RowBox[{"\"\<z\>\"", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"5", ",", "10", ",", "35"}], "}"}]}]}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.5634727680879393`*^9, 3.563472781457163*^9}, {
+   3.5634730252337914`*^9, 3.5634730271993947`*^9}, {3.563473737189842*^9, 
+   3.5634737392022457`*^9}, {3.563474723898895*^9, 3.5634747268629*^9}, {
+   3.563474853815923*^9, 3.5634749267772512`*^9}, {3.5634763812516437`*^9, 
+   3.5634763927020636`*^9}, 3.5634767058288136`*^9, {3.56348225080105*^9, 
+   3.563482251315851*^9}, 3.5634823244965796`*^9, {3.5634831003221426`*^9, 
+   3.563483132645399*^9}}],
+
+Cell[BoxData["0"], "Output",
+ CellChangeTimes->{
+  3.563476181489292*^9, 3.563476393513265*^9, 3.5634764888918324`*^9, 
+   3.563476707981618*^9, {3.5634769415608277`*^9, 3.563476950842844*^9}, 
+   3.563477515355236*^9, 3.563477560284315*^9, 3.5634820198582444`*^9, 
+   3.563482195935754*^9, {3.563482242345835*^9, 3.563482251737052*^9}, 
+   3.5634823250269804`*^9, 3.5634823599710417`*^9, 3.563483102209746*^9, 
+   3.563483133129*^9}]
+}, Open  ]],
+
+Cell[TextData[{
+ "Note that the value returned is the number of rows ",
+ StyleBox["updated",
+  FontSlant->"Italic"],
+ ", so if this is a new record, it will be 0, not 1. (I think...)"
+}], "Text",
+ CellChangeTimes->{{3.563482667389182*^9, 3.563482696233633*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Read", "Subsubtitle",
+ CellChangeTimes->{{3.563482736325703*^9, 3.563482749460926*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "FindDocuments"}]], "Input",
+ CellChangeTimes->{{3.5634761339248085`*^9, 3.563476135952812*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"FindDocuments[collection] returns all documents from a \
+collection.\\nFindDocuments[collection, query] selects all documents from a \
+collection that satisfy the criteria of the \
+query.\\nFindDocuments[collection, query, projection] returns only those \
+field specified by projection.\"\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.5634761362804127`*^9},
+ CellTags->"Info3563447336-9176378"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"FindDocuments", "[", "collection", "]"}], "//", 
+  "Length"}]], "Input",
+ CellChangeTimes->{{3.563473315972502*^9, 3.5634733196073084`*^9}, {
+  3.563473372803402*^9, 3.5634733748626056`*^9}, {3.5634737421662507`*^9, 
+  3.5634737443502545`*^9}, {3.5634750276168284`*^9, 3.5634750370860453`*^9}, {
+  3.5634831070145545`*^9, 3.5634831083873568`*^9}, {3.564323633547851*^9, 
+  3.564323635553678*^9}}],
+
+Cell[BoxData["1"], "Output",
+ CellChangeTimes->{{3.5634762072761374`*^9, 3.56347623142498*^9}, 
+   3.563476273858055*^9, {3.5634763318745565`*^9, 3.5634763615644093`*^9}, 
+   3.56347649302584*^9, 3.5634769538848495`*^9, 3.5634775814847527`*^9, 
+   3.5634822566354604`*^9, 3.5634823272421846`*^9, 3.563482360860244*^9, {
+   3.5634830945969324`*^9, 3.563483135500204*^9}, {3.5643236360448217`*^9, 
+   3.564323657289318*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FindDocuments", "[", 
+  RowBox[{"collection", ",", 
+   RowBox[{"{", 
+    RowBox[{"\"\<mp_id\>\"", "\[Rule]", "\"\<1\>\""}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"\"\<limit\>\"", "\[Rule]", "1"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.563483109151758*^9, 3.5634831179345737`*^9}, {
+  3.56432358612446*^9, 3.564323623255178*^9}, {3.564323671360283*^9, 
+  3.564323688531579*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"MakeJavaObject", "::", "arg"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"MakeJavaObject cannot convert \
+\[NoBreak]\\!\\(\\(\\((\\\"limit\\\" \[Rule] 1)\\)\\) \[Rule] 1\\)\[NoBreak] \
+to a Java object. It does not operate on arguments of that type. \
+\\!\\(\\*ButtonBox[\\\"\[RightSkeleton]\\\", ButtonStyle->\\\"Link\\\", \
+ButtonFrame->None, ButtonData:>\\\"paclet:JLink/ref/MakeJavaObject\\\", \
+ButtonNote -> \\\"JLink`MakeJavaObject::arg\\\"]\\)\"\>"}]], "Message", "MSG",
+ 
+ CellChangeTimes->{{3.56432366443567*^9, 3.564323689033916*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  StyleBox[
+   RowBox[{"Java", "::", "excptn"}], "MessageName"], 
+  RowBox[{
+  ":", " "}], "\<\"A Java exception occurred: \
+\[NoBreak]\\!\\(\\\"java.lang.OutOfMemoryError: Java heap space\\\\n\\\\tat \
+java.lang.StringCoding$StringDecoder.decode(StringCoding.java:133)\\\\n\\\\\
+tat java.lang.StringCoding.decode(StringCoding.java:173)\\\\n\\\\tat \
+java.lang.String.<init>(String.java:444)\\\\n\\\\tat \
+org.bson.BasicBSONDecoder$BSONInput.readUTF8String(BasicBSONDecoder.java:463)\
+\\\\n\\\\tat \
+org.bson.BasicBSONDecoder.decodeElement(BasicBSONDecoder.java:155)\\\\n\\\\\
+tat org.bson.BasicBSONDecoder.decodeElement(BasicBSONDecoder.java:196)\\\\n\\\
+\\tat org.bson.BasicBSONDecoder.decodeElement(BasicBSONDecoder.java:206)\\\\n\
+\\\\tat org.bson.BasicBSONDecoder.decodeElement(BasicBSONDecoder.java:206)\\\\\
+n\\\\tat org.bson.BasicBSONDecoder.decodeElement(BasicBSONDecoder.java:196)\\\
+\\n\\\\tat org.bson.BasicBSONDecoder._decode(BasicBSONDecoder.java:79)\\\\n\\\
+\\tat org.bson.BasicBSONDecoder.decode(BasicBSONDecoder.java:57)\\\\n\\\\tat \
+com.mongodb.DefaultDBDecoder.decode(DefaultDBDecoder.java:56)\\\\n\\\\tat \
+com.mongodb.Response.<init>(Response.java:83)\\\\n\\\\tat \
+com.mongodb.DBPort.go(DBPort.java:124)\\\\n\\\\tat \
+com.mongodb.DBPort.call(DBPort.java:74)\\\\n\\\\tat \
+com.mongodb.DBTCPConnector.innerCall(DBTCPConnector.java:286)\\\\n\\\\tat \
+com.mongodb.DBTCPConnector.call(DBTCPConnector.java:257)\\\\n\\\\tat \
+com.mongodb.DBApiLayer$MyCollection.__find(DBApiLayer.java:310)\\\\n\\\\tat \
+com.mongodb.DBApiLayer$MyCollection.__find(DBApiLayer.java:295)\\\\n\\\\tat \
+com.mongodb.DBCursor._check(DBCursor.java:368)\\\\n\\\\tat \
+com.mongodb.DBCursor._hasNext(DBCursor.java:459)\\\\n\\\\tat \
+com.mongodb.DBCursor.hasNext(DBCursor.java:484)\\\\n\\\\tat \
+sun.reflect.GeneratedMethodAccessor7.invoke(Unknown Source)\\\"\\)\[NoBreak].\
+\"\>"}]], "Message", "MSG",
+ CellChangeTimes->{{3.56432366443567*^9, 3.5643236893877153`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", "}"}]], "Output",
+ CellChangeTimes->{
+  3.5634831181217737`*^9, {3.5643236175759563`*^9, 3.564323623771047*^9}, {
+   3.5643236644383507`*^9, 3.564323689390912*^9}}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FindDocuments", "[", 
+  RowBox[{"collection", ",", 
+   RowBox[{"{", 
+    RowBox[{"\"\<k\>\"", "\[Rule]", "\"\<kappa\>\""}], "}"}], ",", 
+   RowBox[{"{", "\"\<d\>\"", "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.563483109151758*^9, 3.5634831179345737`*^9}, {
+  3.5634834761427393`*^9, 3.563483480541947*^9}, {3.563483515798009*^9, 
+  3.563483543815658*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{"{", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"\<\"_id\"\>", "\[Rule]", "\<\"50bbee776a0a1e399a3b350f\"\>"}], 
+      ",", 
+      RowBox[{"\<\"d\"\>", "\[Rule]", "501"}]}], "}"}], "}"}], "}"}], 
+  "}"}]], "Output",
+ CellChangeTimes->{
+  3.5634831181217737`*^9, 3.5634834809319477`*^9, 3.563483518746414*^9, {
+   3.5634836012237587`*^9, 3.563483619506991*^9}}]
+}, Open  ]],
+
+Cell["\<\
+Note that you can use Mongo\[CloseCurlyQuote]s $ operators such as $gt \
+(greater-than) and $lt (less-than):\
+\>", "Text",
+ CellChangeTimes->{{3.5634831402894125`*^9, 3.5634831520050335`*^9}, {
+  3.5634832551212144`*^9, 3.5634832773512535`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FindDocuments", "[", 
+  RowBox[{"collection", ",", 
+   RowBox[{"{", 
+    RowBox[{"\"\<d\>\"", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{"\"\<$gt\>\"", "\[Rule]", "10"}], "}"}]}], "}"}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.563483109151758*^9, 3.5634831179345737`*^9}, {
+  3.563483163330653*^9, 3.563483173330271*^9}, {3.5634832064023285`*^9, 
+  3.563483210333536*^9}, {3.5634832486472034`*^9, 3.5634832489904037`*^9}, {
+  3.5634832987856913`*^9, 3.5634833012348957`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"_id\"\>", "\[Rule]", "\<\"50bbee776a0a1e399a3b350f\"\>"}],
+        ",", 
+       RowBox[{"\<\"k\"\>", "\[Rule]", "\<\"kappa\"\>"}], ",", 
+       RowBox[{"\<\"d\"\>", "\[Rule]", "501"}], ",", 
+       RowBox[{"\<\"z\"\>", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"5", ",", "10", ",", "35"}], "}"}]}]}], "}"}], "}"}], ",", 
+    RowBox[{"{", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"\<\"_id\"\>", "\[Rule]", "\<\"50bbf15e6a0a1e399a3b3510\"\>"}],
+        ",", 
+       RowBox[{"\<\"k\"\>", "\[Rule]", "\<\"lambda\"\>"}], ",", 
+       RowBox[{"\<\"d\"\>", "\[Rule]", "501"}], ",", 
+       RowBox[{"\<\"z\"\>", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"5", ",", "10", ",", "35"}], "}"}]}]}], "}"}], "}"}]}], 
+   "}"}], "}"}]], "Output",
+ CellChangeTimes->{3.5634831181217737`*^9, 3.563483174469073*^9, 
+  3.563483211550338*^9, 3.563483249427204*^9}]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Drop", "Subsubtitle",
+ CellChangeTimes->{{3.5634827287596903`*^9, 3.5634827548897357`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "DropCollection"}]], "Input",
+ CellChangeTimes->{{3.5634822835455074`*^9, 3.5634822853083105`*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"DropCollection[collection] drops a collection.\"\>", 
+  "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.563482285698312*^9},
+ CellTags->"Info3563453485-5977098"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"DropCollection", "[", "collection", "]"}]], "Input",
+ CellChangeTimes->{{3.563482337694203*^9, 3.5634823409078083`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "DropDatabase"}]], "Input",
+ CellChangeTimes->{{3.5634822641546736`*^9, 3.5634822655274763`*^9}}],
+
+Cell[BoxData[
+ StyleBox["\<\"DropDatabase[connection, database] drops a database by name.\"\
+\>", "MSG"]], "Print", "PrintUsage",
+ CellChangeTimes->{3.5634822658706765`*^9},
+ CellTags->"Info3563453465-5977098"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"DropDatabase", "[", 
+  RowBox[{"connection", ",", "\"\<test\>\""}], "]"}]], "Input",
+ CellChangeTimes->{{3.5634765873436055`*^9, 3.56347659539322*^9}}]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{819, 1430},
+WindowMargins->{{Automatic, 26}, {Automatic, 0}},
+ShowSelection->True,
+FrontEndVersion->"9.0 for Linux x86 (64-bit) (November 20, 2012)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{
+ "Info3563447300-9176378"->{
+  Cell[909, 35, 393, 7, 99, "Print",
+   CellTags->"Info3563447300-9176378"]},
+ "Info3563447318-9176378"->{
+  Cell[3330, 103, 222, 4, 43, "Print",
+   CellTags->"Info3563447318-9176378"]},
+ "Info3563447321-9176378"->{
+  Cell[4665, 141, 235, 4, 43, "Print",
+   CellTags->"Info3563447321-9176378"]},
+ "Info3563447327-9176378"->{
+  Cell[5831, 173, 227, 4, 43, "Print",
+   CellTags->"Info3563447327-9176378"]},
+ "Info3563447331-9176378"->{
+  Cell[7438, 216, 229, 4, 41, "Print",
+   CellTags->"Info3563447331-9176378"]},
+ "Info3563447336-9176378"->{
+  Cell[9532, 274, 434, 7, 99, "Print",
+   CellTags->"Info3563447336-9176378"]},
+ "Info3563453485-5977098"->{
+  Cell[17037, 463, 195, 4, 43, "Print",
+   CellTags->"Info3563453485-5977098"]},
+ "Info3563453465-5977098"->{
+  Cell[17544, 480, 210, 4, 43, "Print",
+   CellTags->"Info3563453465-5977098"]}
+ }
+*)
+(*CellTagsIndex
+CellTagsIndex->{
+ {"Info3563447300-9176378", 18294, 505},
+ {"Info3563447318-9176378", 18401, 508},
+ {"Info3563447321-9176378", 18510, 511},
+ {"Info3563447327-9176378", 18619, 514},
+ {"Info3563447331-9176378", 18728, 517},
+ {"Info3563447336-9176378", 18837, 520},
+ {"Info3563453485-5977098", 18946, 523},
+ {"Info3563453465-5977098", 19056, 526}
+ }
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 31, 0, 93, "Title"],
+Cell[613, 24, 143, 3, 31, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[781, 31, 125, 2, 32, "Input"],
+Cell[909, 35, 393, 7, 99, "Print",
+ CellTags->"Info3563447300-9176378"]
+}, Open  ]],
+Cell[1317, 45, 266, 6, 32, "Input"],
+Cell[1586, 53, 118, 2, 32, "Input"],
+Cell[1707, 57, 143, 3, 32, "Input"],
+Cell[1853, 62, 363, 9, 55, "Input"],
+Cell[CellGroupData[{
+Cell[2241, 75, 217, 4, 32, "Input"],
+Cell[2461, 81, 707, 13, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3205, 99, 122, 2, 32, "Input"],
+Cell[3330, 103, 222, 4, 43, "Print",
+ CellTags->"Info3563447318-9176378"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3589, 112, 306, 6, 32, "Input"],
+Cell[3898, 120, 603, 12, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4538, 137, 124, 2, 32, "Input"],
+Cell[4665, 141, 235, 4, 43, "Print",
+ CellTags->"Info3563447321-9176378"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4937, 150, 169, 3, 32, "Input"],
+Cell[5109, 155, 560, 9, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5706, 169, 122, 2, 32, "Input"],
+Cell[5831, 173, 227, 4, 43, "Print",
+ CellTags->"Info3563447327-9176378"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6095, 182, 442, 7, 32, "Input"],
+Cell[6540, 191, 616, 11, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7193, 207, 96, 1, 31, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[7314, 212, 121, 2, 32, "Input"],
+Cell[7438, 216, 229, 4, 41, "Print",
+ CellTags->"Info3563447331-9176378"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7704, 225, 833, 17, 32, "Input"],
+Cell[8540, 244, 434, 7, 32, "Output"]
+}, Open  ]],
+Cell[8989, 254, 261, 6, 51, "Text"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[9287, 265, 93, 1, 31, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[9405, 270, 124, 2, 32, "Input"],
+Cell[9532, 274, 434, 7, 99, "Print",
+ CellTags->"Info3563447336-9176378"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10003, 286, 431, 8, 32, "Input"],
+Cell[10437, 296, 422, 6, 32, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10896, 307, 415, 9, 32, "Input"],
+Cell[11314, 318, 598, 12, 43, "Message"],
+Cell[11915, 332, 1981, 32, 479, "Message"],
+Cell[13899, 366, 192, 4, 65, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14128, 375, 383, 8, 32, "Input"],
+Cell[14514, 385, 420, 12, 32, "Output"]
+}, Open  ]],
+Cell[14949, 400, 255, 5, 31, "Text"],
+Cell[CellGroupData[{
+Cell[15229, 409, 505, 11, 32, "Input"],
+Cell[15737, 422, 999, 26, 55, "Output"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[16785, 454, 97, 1, 31, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[16907, 459, 127, 2, 32, "Input"],
+Cell[17037, 463, 195, 4, 43, "Print",
+ CellTags->"Info3563453485-5977098"]
+}, Open  ]],
+Cell[17247, 470, 144, 2, 32, "Input"],
+Cell[CellGroupData[{
+Cell[17416, 476, 125, 2, 32, "Input"],
+Cell[17544, 480, 210, 4, 43, "Print",
+ CellTags->"Info3563453465-5977098"]
+}, Open  ]],
+Cell[17769, 487, 175, 3, 32, "Input"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

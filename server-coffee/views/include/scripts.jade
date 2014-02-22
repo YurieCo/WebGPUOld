@@ -1,0 +1,63 @@
+script(src="/public/lib/jquery-1.8.0.js", type="text/javascript", charset="utf-8")
+script(src="/public/lib/jquery.timeago.js", type="text/javascript", charset="utf-8")
+script(src="/public/lib/spin.js", type="text/javascript", charset="utf-8")
+script(src="/public/lib/underscore.js", type="text/javascript", charset="utf-8")
+script(src="/public/lib/bootstrap.min.js", type="text/javascript", charset="utf-8")
+script(src="/public/lib/backbone.js", type="text/javascript", charset="utf-8")
+script(src="/public/lib/codemirror.js", type="text/javascript", charset="utf-8")
+script(src="/public/lib/util/runmode.js", type="text/javascript", charset="utf-8")
+script(src="/public/lib/mode/clike/clike.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/AttemptElementModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/AttemptModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/TimerElementModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/TimerModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/LoggerElementModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/LoggerModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/CompilerStderrModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/CompilerStdoutModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/CompilerFailedModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/SubmissionFailedModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/ProgramStderrModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/ProgramStdoutModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/ProgramFailedModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/ThrottledModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/SandboxedModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/InputModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/OutputModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/ExpectedModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/models/DataModel.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/AttemptElement.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/Attempt.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/TimerElement.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/Timer.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/LoggerElement.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/Logger.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/CompilerStderr.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/CompilerStdout.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/CompilerFailed.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/SubmissionFailed.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/ProgramStderr.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/ProgramStdout.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/ProgramFailed.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/Throttled.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/Input.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/Output.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/Expected.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/Sandboxed.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/views/Data.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/utils.js", type="text/javascript", charset="utf-8")
+script(src="/public/js/main.js", type="text/javascript", charset="utf-8")
+script(type="text/javascript")
+	var _gaq = _gaq || [];
+	var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+	_gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+	_gaq.push(['_setAccount', 'UA-36865206-1']);
+	_gaq.push(['_trackPageview']);
+	
+	(function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	})();
+
+

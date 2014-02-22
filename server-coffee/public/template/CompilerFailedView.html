@@ -1,0 +1,28 @@
+
+<div class="modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="alert alert-block alert-error fade in">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            <h3 class="alert-heading">
+                <% if(_.isString(message)) { %>
+                    <%= message %>
+                <% } else { %>
+                    Compilation Failed
+                <% } %>
+            </h3>
+        </div>
+        <div class="modal-body">
+            <% if (stderr != '') { %>
+                <h4>Stderr output from compiler</h4>
+                <pre class='stderr'><%= stderr %></pre>
+                <hr/>
+            <% } %>
+            <% if (stdout != '') { %>
+                <h4>Stdout output from compiler</h4>
+                <pre class='stdout'><%= stdout %></pre>
+            <% } %>
+          </div>
+        </div>
+    </div>
+</div>
+
